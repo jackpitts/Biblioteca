@@ -8,12 +8,18 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Biblioteca biblioteca = new Biblioteca();
         
-        System.out.println("Inserisci il tuo nome:");
-        String userName = scanner.nextLine();
+        System.out.println("Inserisci il tuo libro:");
+        String title = scanner.nextLine();
+        
+        System.out.println("Inserisci il tuo libro:");
+        String title2 = scanner.nextLine();
+        
+        System.out.println("Inserisci il tuo libro:");
+        String title3 = scanner.nextLine();
 
-        Libro libro1 = new Libro("Il signore degli anelli");
-        Libro libro2 = new Libro("Harry Potter");
-        Libro libro3 = new Libro("1984");
+        Libro libro1 = new Libro(title);
+        Libro libro2 = new Libro(title2);
+        Libro libro3 = new Libro(title3);
 
         biblioteca.acquisisce(libro1);
         biblioteca.acquisisce(libro2);
@@ -27,7 +33,7 @@ public class Main {
         biblioteca.prestito(libro3, persona1);
 
         System.out.println("Libri in prestito per " + persona1.getNome() + " :" + biblioteca.libriInPrestitoPerPersona(persona1));
-        System.out.println("Libri in prestito per " + persona1.getNome() + " :" + biblioteca.libriInPrestitoPerPersona(persona1));
+        System.out.println("Libri in prestito per " + persona1.getNome() + " :" + biblioteca.libriInPrestitoPerPersona(persona2));
                 
         biblioteca.restituzione(libro1);
 
