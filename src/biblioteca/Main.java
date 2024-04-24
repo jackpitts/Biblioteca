@@ -38,15 +38,37 @@ public class Main  {
 
             // Input dei nuovi dati dall'utente
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Inserisci i titoli dei libri. Puoi inserire fino a 5 titoli.");
+            System.out.println("Inserisci i titoli dei libri da aggiungere: ");
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
                 System.out.print("Titolo del libro " + (i + 1) + ": ");
                 String titoloLibro = scanner.nextLine();
 
                 Element libroElement = doc.createElement("libro");
                 libroElement.setAttribute("titolo", titoloLibro); // Aggiunta dell'attributo titolo
                 doc.getDocumentElement().appendChild(libroElement);
+            }
+
+            // Richiesta dei titoli dei libri da eliminare
+            System.out.println("Inserisci i titoli dei libri da eliminare: ");
+
+            for (int i = 0; i < 2; i++) {
+                System.out.print("Titolo del libro da eliminare " + (i + 1) + ": ");
+                String titoloDaEliminare = scanner.nextLine();
+
+                NodeList libroNodes = doc.getElementsByTagName("libro");
+
+                for (int j = 0; j < libroNodes.getLength(); j++) {
+                    Node libroNode = libroNodes.item(j);
+                    if (libroNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element libroElement = (Element) libroNode;
+                        String titoloLibro = libroElement.getAttribute("titolo"); // Ottenere l'attributo titolo
+                        if (titoloLibro.equals(titoloDaEliminare)) {
+                            libroElement.getParentNode().removeChild(libroElement);
+                            break;
+                        }
+                    }
+                }
             }
 
             // Salva il documento XML aggiornato su un file
