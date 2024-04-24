@@ -18,76 +18,55 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class Main  {
 
     public static void main(String[] args) {
         try {
-            // Creazione del documento XML
+            // Caricamento del documento XML esistente
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.newDocument();
+            Document doc;
 
-            // Creazione dell'elemento radice
-            Element rootElement = doc.createElement("dati");
-            doc.appendChild(rootElement);
+            File file = new File("src\\biblioteca\\libri.xml");
+            if (file.exists()) {
+                doc = dBuilder.parse(file);
+                doc.getDocumentElement().normalize();
+            } else {
+                doc = dBuilder.newDocument();
+                doc.appendChild(doc.createElement("libri"));
+            }
 
-            // Input dinamico dei dati dall'utente
+            // Input dei nuovi dati dall'utente
             Scanner scanner = new Scanner(System.in);
-            ArrayList<String[]> dati = new ArrayList<>();
-            System.out.println("Inserisci i dati. Digita 'fine' per terminare l'inserimento.");
+            System.out.println("Inserisci i titoli dei libri. Puoi inserire fino a 5 titoli.");
 
-            while (true) {
-                System.out.print("Nome elemento: ");
-                String nomeElemento = scanner.nextLine();
-                if (nomeElemento.equals("fine")) {
-                    break;
-                }
+            for (int i = 0; i < 5; i++) {
+                System.out.print("Titolo del libro " + (i + 1) + ": ");
+                String titoloLibro = scanner.nextLine();
 
-                System.out.print("Nome attributo: ");
-                String attributo = scanner.nextLine();
-
-                System.out.print("Valore attributo: ");
-                String valoreAttributo = scanner.nextLine();
-
-                dati.add(new String[]{nomeElemento, attributo, valoreAttributo});
+                Element libroElement = doc.createElement("libro");
+                libroElement.setAttribute("titolo", titoloLibro); // Aggiunta dell'attributo titolo
+                doc.getDocumentElement().appendChild(libroElement);
             }
 
-            // Creazione degli elementi XML con gli attributi
-            for (String[] elemento : dati) {
-                String nomeElemento = elemento[0];
-                String attributo = elemento[1];
-                String valoreAttributo = elemento[2];
-
-                Element xmlElement = doc.createElement(nomeElemento);
-                xmlElement.setAttribute(attributo, valoreAttributo);
-                rootElement.appendChild(xmlElement);
-            }
-
-            // Salva il documento XML su un file
+            // Salva il documento XML aggiornato su un file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("C:\\\\Users\\\\mirko.cuter\\\\Desktop\\\\Biblioteca\\\\src\\\\biblioteca\\\\store.xml"));
-
-            // Scrittura dei dati sul file XML
+            StreamResult result = new StreamResult(file);
             transformer.transform(source, result);
-            System.out.println("File XML creato con successo!");
+            System.out.println("File XML aggiornato con successo!");
 
-            // Lettura del file XML
-            File inputFile = new File("C:\\\\Users\\\\mirko.cuter\\\\Desktop\\\\Biblioteca\\\\src\\\\biblioteca\\\\store.xml");
-            Document document = dBuilder.parse(inputFile);
-            document.getDocumentElement().normalize();
+            // Lettura del file XML aggiornato
+            System.out.println("Titoli dei libri nel file XML:");
+            NodeList libroNodes = doc.getElementsByTagName("libro");
 
-            // Accesso ai dati
-            NodeList nodeList = document.getElementsByTagName("dati");
-            for (int temp = 0; temp < nodeList.getLength(); temp++) {
-                Node node = nodeList.item(temp);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    String attributo = element.getAttribute("attributo");
-                    System.out.println("Attributo: " + attributo);
-                    String testo = element.getTextContent();
-                    System.out.println("Testo: " + testo);
+            for (int i = 0; i < libroNodes.getLength(); i++) {
+                Node libroNode = libroNodes.item(i);
+                if (libroNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element libroElement = (Element) libroNode;
+                    String titoloLibro = libroElement.getAttribute("titolo"); // Ottenere l'attributo titolo
+                    System.out.println("- " + titoloLibro);
                 }
             }
         } catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
@@ -95,4 +74,3 @@ public class Main {
         }
     }
 }
-
