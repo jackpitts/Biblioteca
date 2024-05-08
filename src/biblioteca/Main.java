@@ -3,6 +3,7 @@ package biblioteca;
 import java.util.Scanner;
 import javax.xml.transform.TransformerException;
 
+
 public class Main {
 
     public static void main(String[] args) {
@@ -14,6 +15,14 @@ public class Main {
         switch (scelta) {
             case "add" -> {
                 // Aggiungi un libro all'archivio
+                System.out.println("Lercio, dimmi il titolo");
+                String title = scanner.nextLine();
+                addBook(archive, title);
+                try {
+                    archive.makeArchivePersistent();
+                } catch (TransformerException ex) {
+                    System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
+                }
             }
             case "del" -> {
                 System.out.println("Quanti libri vuoi eliminare?");
@@ -59,5 +68,15 @@ public class Main {
             }
         }
         return false;
+    }
+
+    private static boolean addBook(XMLArchive archive, String titolo) {
+        var doc = archive.getDocument();
+        var libriElement = doc.getDocumentElement();
+        var nuovoLibroElement = doc.createElement("libro");
+        nuovoLibroElement.setAttribute("titolo", titolo);
+        libriElement.appendChild(nuovoLibroElement);
+
+        return true;
     }
 }
