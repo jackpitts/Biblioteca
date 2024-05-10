@@ -3,7 +3,6 @@ package biblioteca;
 import java.util.Scanner;
 import javax.xml.transform.TransformerException;
 
-
 public class Main {
 
     public static void main(String[] args) {
@@ -14,12 +13,30 @@ public class Main {
         String scelta = scanner.nextLine();
         switch (scelta) {
             case "add" -> {
+
+                System.out.println("Quanti libri vuoi aggiungere?");
+                int n = scanner.nextInt();
+                scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+
+                for (int i = 0; i < n - 1; i++) {
+                    System.out.println("Dimmi il titolo del libro da aggiungere:");
+                    String title = scanner.nextLine();
+                    addBook(archive, title);
+                    try {
+                        archive.makeArchivePersistent();
+                        System.out.println("Libro aggiunto con successo");
+                    } catch (TransformerException ex) {
+                        System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
+                    }
+                }
+
                 // Aggiungi un libro all'archivio
-                System.out.println("Lercio, dimmi il titolo");
+                System.out.println("Dimmi il titolo:");
                 String title = scanner.nextLine();
                 addBook(archive, title);
                 try {
                     archive.makeArchivePersistent();
+                    System.out.println("Libro aggiunto con successo");
                 } catch (TransformerException ex) {
                     System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
                 }
@@ -53,7 +70,8 @@ public class Main {
             case "storico" -> {
                 // Operazioni per visualizzare lo storico
             }
-            default -> System.out.println("Comando non riconosciuto");
+            default ->
+                System.out.println("Comando non riconosciuto");
         }
     }
 
