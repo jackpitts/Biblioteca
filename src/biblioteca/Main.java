@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         XMLArchive archive = new XMLArchive();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("ciao, benvenuto nella biblioteca, cosa vuoi fare?");
+        System.out.println("Ciao, benvenuto nella biblioteca, cosa vuoi fare?");
 
         String scelta = scanner.nextLine();
         switch (scelta) {
@@ -21,7 +21,7 @@ public class Main {
                 for (int i = 0; i < n - 1; i++) {
                     System.out.println("Dimmi il titolo del libro da aggiungere:");
                     String title = scanner.nextLine();
-                    addBook(archive, title);
+                    archive.addBook(archive, title);
                     try {
                         archive.makeArchivePersistent();
                         System.out.println("Libro aggiunto con successo");
@@ -33,7 +33,7 @@ public class Main {
                 // Aggiungi un libro all'archivio
                 System.out.println("Dimmi il titolo:");
                 String title = scanner.nextLine();
-                addBook(archive, title);
+                archive.addBook(archive, title);
                 try {
                     archive.makeArchivePersistent();
                     System.out.println("Libro aggiunto con successo");
@@ -49,7 +49,7 @@ public class Main {
                 for (int i = 0; i < n; i++) {
                     System.out.print("Titolo del libro da eliminare " + (i + 1) + ": ");
                     String titoloDaEliminare = scanner.nextLine();
-                    if (eliminaLibro(archive, titoloDaEliminare)) {
+                    if (archive.eliminaLibro(archive, titoloDaEliminare)) {
                         try {
                             archive.makeArchivePersistent();
                             System.out.println("Libro eliminato con successo");
@@ -62,7 +62,20 @@ public class Main {
                 }
             }
             case "prestito" -> {
-                // Operazioni per prestito
+                System.out.println("Inserisci il titolo del libro che desideri prendere in prestito:");
+                String titoloPrestito = scanner.nextLine();
+
+                if (archive.prestitoLibro(titoloPrestito)) {
+                    try {
+                        archive.makeArchivePersistent();
+                        System.out.println("Libro in prestito con successo");
+                    } catch (TransformerException ex) {
+                        System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
+                    }
+                } else {
+                    System.out.println("Libro non disponibile per il prestito: " + titoloPrestito);
+                }
+
             }
             case "restituzione" -> {
                 // Operazioni per restituzione
@@ -73,28 +86,5 @@ public class Main {
             default ->
                 System.out.println("Comando non riconosciuto");
         }
-    }
-
-    private static boolean eliminaLibro(XMLArchive archive, String titolo) {
-        var doc = archive.getDocument();
-        var libroNodes = doc.getElementsByTagName("libro");
-        for (int i = 0; i < libroNodes.getLength(); i++) {
-            var libroElement = (org.w3c.dom.Element) libroNodes.item(i);
-            if (libroElement.getAttribute("titolo").equals(titolo)) {
-                libroElement.getParentNode().removeChild(libroElement);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean addBook(XMLArchive archive, String titolo) {
-        var doc = archive.getDocument();
-        var libriElement = doc.getDocumentElement();
-        var nuovoLibroElement = doc.createElement("libro");
-        nuovoLibroElement.setAttribute("titolo", titolo);
-        libriElement.appendChild(nuovoLibroElement);
-
-        return true;
     }
 }

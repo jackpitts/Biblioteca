@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><libri>
-    
-<libro titolo="ciao"/><libro titolo="ciao"/><libro titolo="ciao"/><libro titolo="io"/><libro titolo="ass"/><libro titolo="cac"/><libro titolo="ciao"/><libro titolo="aa"/><libro titolo="dad"/><libro titolo="dasd"/><libro titolo="aa"/><libro titolo="aaa"/><libro titolo="aaa"/></libri>
+    <libro data="2024-05-10" inPrestito="false"/>
+    <libro data="2024-05-10" inPrestito="false"/>
+    <libro data_aggiunta="2024-05-10" inPrestito="false" titolo="jj"/>
+    <libro data_aggiunta="2024-05-10 08:47:06" inPrestito="false" titolo="iao"/>
+</libri>

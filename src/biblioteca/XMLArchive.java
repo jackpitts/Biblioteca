@@ -13,6 +13,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class XMLArchive {
 
@@ -60,5 +62,54 @@ public class XMLArchive {
             String titoloLibro = libroElement.getAttribute("titolo");
             System.out.println("- " + titoloLibro);
         }
+    }
+
+    public static boolean eliminaLibro(XMLArchive archive, String titolo) {
+        var doc = archive.getDocument();
+        var libroNodes = doc.getElementsByTagName("libro");
+        for (int i = 0; i < libroNodes.getLength(); i++) {
+            var libroElement = (org.w3c.dom.Element) libroNodes.item(i);
+            if (libroElement.getAttribute("titolo").equals(titolo)) {
+                libroElement.getParentNode().removeChild(libroElement);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean addBook(XMLArchive archive, String titolo) {
+        Document doc = archive.getDocument();
+        Element libriElement = doc.getDocumentElement();
+        Element nuovoLibroElement = doc.createElement("libro");
+        nuovoLibroElement.setAttribute("titolo", titolo);
+
+        // Aggiungi attributo data e ora corrente
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String dataOraCorrente = LocalDateTime.now().format(formatter);
+        nuovoLibroElement.setAttribute("data_aggiunta", dataOraCorrente);
+
+        // Aggiungi attributo inPrestito come booleano
+        nuovoLibroElement.setAttribute("inPrestito", "false");
+
+        libriElement.appendChild(nuovoLibroElement);
+
+        return true;
+    }
+
+    public boolean prestitoLibro(String titolo) {
+        NodeList libroNodes = doc.getElementsByTagName("libro");
+        for (int i = 0; i < libroNodes.getLength(); i++) {
+            Element libroElement = (Element) libroNodes.item(i);
+            if (libroElement.getAttribute("titolo").equals(titolo)) {
+                String statoPrestito = libroElement.getAttribute("inPrestito");
+                if (statoPrestito.equals("false")) {
+                    libroElement.setAttribute("inPrestito", "true");
+                    return true;
+                } else {
+                    return false; // Libro già in prestito
+                }
+            }
+        }
+        return false; // Libro non trovato
     }
 }
