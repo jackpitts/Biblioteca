@@ -2,14 +2,37 @@ package biblioteca;
 
 import java.util.Scanner;
 import javax.xml.transform.TransformerException;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Main {
+
+    private static Map<String, String> prestiti = new HashMap<>(); // Mappa per tracciare i prestiti
+    private static final String[] UTENTI_AUTORIZZATI = {"utente1", "utente2", "utente3"}; // Elenca tutti gli utenti autorizzati
 
     public static void main(String[] args) {
         XMLArchive archive = new XMLArchive();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Ciao, benvenuto nella biblioteca, cosa vuoi fare?");
+        boolean autenticato = false;
+        String utenteAutenticato = null;
 
+        while (!autenticato) {
+            System.out.println("Inserisci il tuo nome utente:");
+            String username = scanner.nextLine();
+
+            autenticato = autentica(username);
+            if (autenticato) {
+                utenteAutenticato = username; // Memorizza il nome utente autenticato
+            } else {
+                System.out.println("Nome utente non valido. Riprova.");
+            }
+        }
+        // Ora l'utente è autenticato, puoi procedere con il resto del programma
+        System.out.println("Accesso consentito. Benvenuto!");
+        // Continua con il resto del programma...
+
+        System.out.println(
+                "Ciao, benvenuto nella biblioteca, cosa vuoi fare?");
         String scelta = scanner.nextLine();
         switch (scelta) {
             case "add" -> {
@@ -44,7 +67,7 @@ public class Main {
             case "del" -> {
                 System.out.println("Quanti libri vuoi eliminare?");
                 int n = scanner.nextInt();
-                if(n>archive.countBooks()){
+                if (n > archive.countBooks()) {
                     System.out.println("Hai selezionato un numero di libri maggiore rispetto a quelli presenti");
                     return;
                 }
@@ -68,52 +91,54 @@ public class Main {
             case "prestito" -> {
                 System.out.println("Quanti libri vuoi prendere in prestito?");
                 int n = scanner.nextInt();
-                if(n>archive.countBooks()){
+                scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+                if (n > archive.countBooks()) {
                     System.out.println("Hai selezionato un numero di libri maggiore rispetto a quelli presenti");
                     return;
                 }
-                scanner.nextLine(); // Consuma il carattere di nuova riga residuo
-                for (int i = 0; i < n; i++) {
-                    System.out.println("Inserisci il titolo del libro che desideri prendere in prestito:");
-                    String titoloPrestito = scanner.nextLine();
-
-                    if (archive.prestitoLibro(titoloPrestito)) {
-                        try {
-                            archive.makeArchivePersistent();
-                            System.out.println("Libro in prestito con successo");
-                        } catch (TransformerException ex) {
-                            System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
-                        }
-                    } else {
-                        System.out.println("Libro non disponibile per il prestito: ");
+                System.out.println("Inserisci il titolo del libro che desideri prendere in prestito:");
+                String titoloPrestito = scanner.nextLine();
+                if (archive.prestitoLibro(titoloPrestito, utenteAutenticato)) {
+                    prestiti.put(titoloPrestito, utenteAutenticato); // Associa il prestito all'utente autenticato
+                    try {
+                        archive.makeArchivePersistent();
+                        System.out.println("Libro in prestito con successo");
+                    } catch (TransformerException ex) {
+                        System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
                     }
+                } else {
+                    System.out.println("Libro non disponibile per il prestito: " + titoloPrestito);
                 }
-
             }
             case "restituzione" -> {
-                
                 System.out.println("Quanti libri vuoi restituire?");
                 int n = scanner.nextInt();
-                if(n>archive.countBooksInPrestito()){
+                if (n > archive.countBooksInPrestito()) {
                     System.out.println("Hai selezionato un numero di libri maggiore rispetto a quelli presenti");
                     return;
                 }
                 scanner.nextLine(); // Consuma il carattere di nuova riga residuo
-                for (int i = 0; i < n; i++) {
-                    System.out.println("Inserisci il titolo del libro che desideri restituire:");
-                    String titoloRestituzione = scanner.nextLine();
+                System.out.println("Inserisci il titolo del libro che desideri restituire:");
+                String titoloRestituzione = scanner.nextLine();
 
-                    if (archive.restituisciLibro(titoloRestituzione)) {
-                        try {
-                            archive.makeArchivePersistent();
-                            System.out.println("Libro restituito con successo");
-                        } catch (TransformerException ex) {
-                            System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
-                        }
-                    } else {
-                        System.out.println("Libro non in prestito o non trovato");
-                    }
-                }
+                // Verifica se l'utente autenticato ha preso in prestito il libro e se è autorizzato a restituirlo
+String titoloPulito = titoloRestituzione.trim(); // Rimuovi eventuali spazi bianchi
+if (prestiti.containsKey(titoloPulito) && prestiti.get(titoloPulito).equals(utenteAutenticato)) {
+    if (archive.restituisciLibro(titoloPulito)) {
+        prestiti.remove(titoloPulito); // Rimuovi l'associazione del prestito
+        try {
+            archive.makeArchivePersistent();
+            System.out.println("Libro restituito con successo");
+        } catch (TransformerException ex) {
+            System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
+        }
+    } else {
+        System.out.println("Libro non in prestito o non trovato: " + titoloPulito);
+    }
+} else {
+    System.out.println("Non sei autorizzato a restituire questo libro.");
+}
+
             }
 
             case "storico" -> {
@@ -122,5 +147,14 @@ public class Main {
             default ->
                 System.out.println("Comando non riconosciuto");
         }
+    }
+
+    private static boolean autentica(String username) {
+        for (String utente : UTENTI_AUTORIZZATI) {
+            if (utente.equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

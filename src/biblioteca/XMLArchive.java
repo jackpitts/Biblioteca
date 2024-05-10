@@ -91,27 +91,32 @@ public class XMLArchive {
         return true;
     }
 
-    public boolean prestitoLibro(String titolo) {
-        NodeList libroNodes = doc.getElementsByTagName("libro");
-        for (int i = 0; i < libroNodes.getLength(); i++) {
-            Element libroElement = (Element) libroNodes.item(i);
-            if (libroElement.getAttribute("titolo").equals(titolo)) {
-                String statoPrestito = libroElement.getAttribute("inPrestito");
-                if (statoPrestito.equals("false")) {
-                    libroElement.setAttribute("inPrestito", "true");
+    public boolean prestitoLibro(String titolo, String utente) {
+    NodeList libroNodes = doc.getElementsByTagName("libro");
+    for (int i = 0; i < libroNodes.getLength(); i++) {
+        Element libroElement = (Element) libroNodes.item(i);
+        if (libroElement.getAttribute("titolo").equals(titolo)) {
+            String statoPrestito = libroElement.getAttribute("inPrestito");
+            if (statoPrestito.equals("false")) {
+                libroElement.setAttribute("inPrestito", "true");
 
-                    // Aggiungi attributo data e ora corrente
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    String dataOraCorrente = LocalDateTime.now().format(formatter);
-                    libroElement.setAttribute("data_prestito", dataOraCorrente);
-                    return true;
-                } else {
-                    return false; // Libro già in prestito
-                }
+                // Aggiungi attributo data e ora corrente
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                String dataOraCorrente = LocalDateTime.now().format(formatter);
+                libroElement.setAttribute("data_prestito", dataOraCorrente);
+                
+                // Aggiungi attributo per il nome dell'utente che ha preso in prestito il libro
+                libroElement.setAttribute("utentePrestito", utente);
+                
+                return true;
+            } else {
+                return false; // Libro già in prestito
             }
         }
-        return false; // Libro non trovato
     }
+    return false; // Libro non trovato
+}
+
 
     public boolean restituisciLibro(String titolo) {
         NodeList libroNodes = doc.getElementsByTagName("libro");
