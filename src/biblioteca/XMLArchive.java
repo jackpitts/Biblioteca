@@ -83,11 +83,6 @@ public class XMLArchive {
         Element nuovoLibroElement = doc.createElement("libro");
         nuovoLibroElement.setAttribute("titolo", titolo);
 
-        // Aggiungi attributo data e ora corrente
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String dataOraCorrente = LocalDateTime.now().format(formatter);
-        nuovoLibroElement.setAttribute("data_aggiunta", dataOraCorrente);
-
         // Aggiungi attributo inPrestito come booleano
         nuovoLibroElement.setAttribute("inPrestito", "false");
 
@@ -104,6 +99,11 @@ public class XMLArchive {
                 String statoPrestito = libroElement.getAttribute("inPrestito");
                 if (statoPrestito.equals("false")) {
                     libroElement.setAttribute("inPrestito", "true");
+
+                    // Aggiungi attributo data e ora corrente
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    String dataOraCorrente = LocalDateTime.now().format(formatter);
+                    libroElement.setAttribute("data_prestito", dataOraCorrente);
                     return true;
                 } else {
                     return false; // Libro già in prestito
@@ -112,4 +112,40 @@ public class XMLArchive {
         }
         return false; // Libro non trovato
     }
+
+    public boolean restituisciLibro(String titolo) {
+        NodeList libroNodes = doc.getElementsByTagName("libro");
+        for (int i = 0; i < libroNodes.getLength(); i++) {
+            Element libroElement = (Element) libroNodes.item(i);
+            if (libroElement.getAttribute("titolo").equals(titolo)) {
+                String statoPrestito = libroElement.getAttribute("inPrestito");
+                if (statoPrestito.equals("true")) {
+                    libroElement.setAttribute("inPrestito", "false");
+                    libroElement.removeAttribute("data_prestito");
+                    return true; // Restituzione avvenuta con successo
+                } else {
+                    return false; // Libro non in prestito
+                }
+            }
+        }
+        return false; // Libro non trovato
+    }
+
+    public int countBooks() {
+        NodeList libroNodes = doc.getElementsByTagName("libro");
+        return libroNodes.getLength();
+    }
+
+    public int countBooksInPrestito() {
+        NodeList libroNodes = doc.getElementsByTagName("libro");
+        int count = 0;
+        for (int i = 0; i < libroNodes.getLength(); i++) {
+            Element libroElement = (Element) libroNodes.item(i);
+            if (libroElement.getAttribute("inPrestito").equals("true")) {
+                count++;
+            }
+        }
+        return count;
+    }
+
 }

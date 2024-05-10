@@ -44,10 +44,14 @@ public class Main {
             case "del" -> {
                 System.out.println("Quanti libri vuoi eliminare?");
                 int n = scanner.nextInt();
+                if(n>archive.countBooks()){
+                    System.out.println("Hai selezionato un numero di libri maggiore rispetto a quelli presenti");
+                    return;
+                }
                 scanner.nextLine(); // Consuma il carattere di nuova riga residuo
 
                 for (int i = 0; i < n; i++) {
-                    System.out.print("Titolo del libro da eliminare " + (i + 1) + ": ");
+                    System.out.print("Titolo del libro da eliminare: ");
                     String titoloDaEliminare = scanner.nextLine();
                     if (archive.eliminaLibro(archive, titoloDaEliminare)) {
                         try {
@@ -62,24 +66,56 @@ public class Main {
                 }
             }
             case "prestito" -> {
-                System.out.println("Inserisci il titolo del libro che desideri prendere in prestito:");
-                String titoloPrestito = scanner.nextLine();
+                System.out.println("Quanti libri vuoi prendere in prestito?");
+                int n = scanner.nextInt();
+                if(n>archive.countBooks()){
+                    System.out.println("Hai selezionato un numero di libri maggiore rispetto a quelli presenti");
+                    return;
+                }
+                scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+                for (int i = 0; i < n; i++) {
+                    System.out.println("Inserisci il titolo del libro che desideri prendere in prestito:");
+                    String titoloPrestito = scanner.nextLine();
 
-                if (archive.prestitoLibro(titoloPrestito)) {
-                    try {
-                        archive.makeArchivePersistent();
-                        System.out.println("Libro in prestito con successo");
-                    } catch (TransformerException ex) {
-                        System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
+                    if (archive.prestitoLibro(titoloPrestito)) {
+                        try {
+                            archive.makeArchivePersistent();
+                            System.out.println("Libro in prestito con successo");
+                        } catch (TransformerException ex) {
+                            System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
+                        }
+                    } else {
+                        System.out.println("Libro non disponibile per il prestito: ");
                     }
-                } else {
-                    System.out.println("Libro non disponibile per il prestito: " + titoloPrestito);
                 }
 
             }
             case "restituzione" -> {
-                // Operazioni per restituzione
+                
+                System.out.println("Quanti libri vuoi restituire?");
+                int n = scanner.nextInt();
+                if(n>archive.countBooksInPrestito()){
+                    System.out.println("Hai selezionato un numero di libri maggiore rispetto a quelli presenti");
+                    return;
+                }
+                scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+                for (int i = 0; i < n; i++) {
+                    System.out.println("Inserisci il titolo del libro che desideri restituire:");
+                    String titoloRestituzione = scanner.nextLine();
+
+                    if (archive.restituisciLibro(titoloRestituzione)) {
+                        try {
+                            archive.makeArchivePersistent();
+                            System.out.println("Libro restituito con successo");
+                        } catch (TransformerException ex) {
+                            System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
+                        }
+                    } else {
+                        System.out.println("Libro non in prestito o non trovato");
+                    }
+                }
             }
+
             case "storico" -> {
                 // Operazioni per visualizzare lo storico
             }
