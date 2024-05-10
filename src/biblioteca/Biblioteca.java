@@ -3,8 +3,10 @@ package biblioteca;
 import java.util.*;
 
 class Biblioteca {
+
     private List<Libro> libri;
     private Map<Persona, List<Libro>> prestiti;
+    XMLArchive archive = new XMLArchive();
 
     public Biblioteca() {
         this.libri = new ArrayList<>();
@@ -41,5 +43,16 @@ class Biblioteca {
         }
         return titoliLibri;
     }
-}
 
+    public void eseguiBiblioteca(String utenteCorrente, XMLArchive archive) {
+        ArrayList<String> storicoAzioniUtente = archive.getStoricoAzioniUtente(utenteCorrente);
+        if (storicoAzioniUtente.isEmpty()) {
+            System.out.println("Nessuna azione effettuata.");
+        } else {
+            System.out.println("\nStorico delle azioni:");
+            for (String azione : storicoAzioniUtente) {
+                System.out.println(azione);
+            }
+        }
+    }
+}
