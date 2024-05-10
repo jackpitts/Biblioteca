@@ -65,10 +65,10 @@ public class XMLArchive {
     }
 
     public static boolean eliminaLibro(XMLArchive archive, String titolo) {
-        var doc = archive.getDocument();
-        var libroNodes = doc.getElementsByTagName("libro");
+        Document doc = archive.getDocument();
+        NodeList libroNodes = doc.getElementsByTagName("libro");
         for (int i = 0; i < libroNodes.getLength(); i++) {
-            var libroElement = (org.w3c.dom.Element) libroNodes.item(i);
+            Element libroElement = (Element) libroNodes.item(i);
             if (libroElement.getAttribute("titolo").equals(titolo)) {
                 libroElement.getParentNode().removeChild(libroElement);
                 return true;
@@ -91,7 +91,7 @@ public class XMLArchive {
         return true;
     }
 
-     public boolean prestitoLibro(String titolo, String utente) {
+    public boolean prestitoLibro(String titolo, String utente) {
         NodeList libroNodes = doc.getElementsByTagName("libro");
         for (int i = 0; i < libroNodes.getLength(); i++) {
             Element libroElement = (Element) libroNodes.item(i);
@@ -104,10 +104,10 @@ public class XMLArchive {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     String dataOraCorrente = LocalDateTime.now().format(formatter);
                     libroElement.setAttribute("data_prestito", dataOraCorrente);
-                    
+
                     // Aggiungi attributo per il nome dell'utente che ha preso in prestito il libro
                     libroElement.setAttribute("utentePrestito", utente);
-                    
+
                     return true;
                 } else {
                     return false; // Libro già in prestito
