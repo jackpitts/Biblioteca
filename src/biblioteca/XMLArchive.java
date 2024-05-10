@@ -91,43 +91,48 @@ public class XMLArchive {
         return true;
     }
 
-    public boolean prestitoLibro(String titolo, String utente) {
-    NodeList libroNodes = doc.getElementsByTagName("libro");
-    for (int i = 0; i < libroNodes.getLength(); i++) {
-        Element libroElement = (Element) libroNodes.item(i);
-        if (libroElement.getAttribute("titolo").equals(titolo)) {
-            String statoPrestito = libroElement.getAttribute("inPrestito");
-            if (statoPrestito.equals("false")) {
-                libroElement.setAttribute("inPrestito", "true");
+     public boolean prestitoLibro(String titolo, String utente) {
+        NodeList libroNodes = doc.getElementsByTagName("libro");
+        for (int i = 0; i < libroNodes.getLength(); i++) {
+            Element libroElement = (Element) libroNodes.item(i);
+            if (libroElement.getAttribute("titolo").equals(titolo)) {
+                String statoPrestito = libroElement.getAttribute("inPrestito");
+                if (statoPrestito.equals("false")) {
+                    libroElement.setAttribute("inPrestito", "true");
 
-                // Aggiungi attributo data e ora corrente
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                String dataOraCorrente = LocalDateTime.now().format(formatter);
-                libroElement.setAttribute("data_prestito", dataOraCorrente);
-                
-                // Aggiungi attributo per il nome dell'utente che ha preso in prestito il libro
-                libroElement.setAttribute("utentePrestito", utente);
-                
-                return true;
-            } else {
-                return false; // Libro già in prestito
+                    // Aggiungi attributo data e ora corrente
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    String dataOraCorrente = LocalDateTime.now().format(formatter);
+                    libroElement.setAttribute("data_prestito", dataOraCorrente);
+                    
+                    // Aggiungi attributo per il nome dell'utente che ha preso in prestito il libro
+                    libroElement.setAttribute("utentePrestito", utente);
+                    
+                    return true;
+                } else {
+                    return false; // Libro già in prestito
+                }
             }
         }
+        return false; // Libro non trovato
     }
-    return false; // Libro non trovato
-}
 
-
-    public boolean restituisciLibro(String titolo) {
+    public boolean restituisciLibro(String titolo, String utente) {
         NodeList libroNodes = doc.getElementsByTagName("libro");
         for (int i = 0; i < libroNodes.getLength(); i++) {
             Element libroElement = (Element) libroNodes.item(i);
             if (libroElement.getAttribute("titolo").equals(titolo)) {
                 String statoPrestito = libroElement.getAttribute("inPrestito");
                 if (statoPrestito.equals("true")) {
-                    libroElement.setAttribute("inPrestito", "false");
-                    libroElement.removeAttribute("data_prestito");
-                    return true; // Restituzione avvenuta con successo
+                    String utentePrestito = libroElement.getAttribute("utentePrestito");
+                    if (utentePrestito.equals(utente)) {
+                        libroElement.setAttribute("inPrestito", "false");
+                        libroElement.removeAttribute("data_prestito");
+                        libroElement.removeAttribute("utentePrestito");
+                        return true; // Restituzione avvenuta con successo
+                    } else {
+                        return false; // Utente non autorizzato a restituire il libro
+                    }
                 } else {
                     return false; // Libro non in prestito
                 }
@@ -135,6 +140,7 @@ public class XMLArchive {
         }
         return false; // Libro non trovato
     }
+
 
     public int countBooks() {
         NodeList libroNodes = doc.getElementsByTagName("libro");

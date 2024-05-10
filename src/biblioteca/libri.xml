@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><libri>
 <libro data_prestito="2024-05-10 13:33:41" inPrestito="true" titolo="ciao" utentePrestito="utente1"/>
 <libro data_prestito="2024-05-10 13:34:36" inPrestito="true" titolo="cio" utentePrestito="utente2"/>
+<libro data_prestito="2024-05-10 16:25:09" inPrestito="true" titolo="1" utentePrestito="utente1"/>
+<libro inPrestito="false" titolo="2"/>
+<libro inPrestito="false" titolo="asd"/>
+<libro inPrestito="false" titolo="dsa"/>
 </libri>
