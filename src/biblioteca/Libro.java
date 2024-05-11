@@ -4,16 +4,18 @@ import java.util.Date;
 
 class Libro {
 
-    private String titolo, autore, casaEditrice;
-    private int anno;
+    private String titolo, autore, casaEditrice, genere;
+    private int anno, quantitaDisponibile;
     private boolean inPrestito;
     private Date data;
 
-    public Libro(String titolo, String autore, String casaEditrice, int anno, boolean inPrestito, Date data) {
+    public Libro(String titolo, String autore, String casaEditrice, String genere, int anno, int quantitaDisponibile, boolean inPrestito, Date data) {
         this.titolo = titolo;
         this.autore = autore;
         this.casaEditrice = casaEditrice;
+        this.genere = genere;
         this.anno = anno;
+        this.quantitaDisponibile = quantitaDisponibile;
         this.inPrestito = inPrestito;
         this.data = data;
     }
@@ -72,5 +74,21 @@ class Libro {
 
     public void restituisci() {
         inPrestito = false;
+    }
+
+    public String getGenere() {
+        return genere;
+    }
+
+    public void setGenere(String genere) {
+        this.genere = genere;
+    }
+
+    public int getQuantitaDisponibile() {
+        return quantitaDisponibile;
+    }
+
+    public void setQuantitaDisponibile(int quantitaDisponibile) {
+        this.quantitaDisponibile = quantitaDisponibile;
     }
 }

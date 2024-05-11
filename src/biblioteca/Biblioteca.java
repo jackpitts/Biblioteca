@@ -47,7 +47,7 @@ class Biblioteca {
     public void eseguiBiblioteca(String utenteCorrente, XMLArchive archive) {
         ArrayList<String> storicoAzioniUtente = archive.getStoricoAzioniUtente(utenteCorrente);
         if (storicoAzioniUtente.isEmpty()) {
-            System.out.println("Nessuna azione effettuata.");
+            System.out.println("Nessuno storico disponibile.");
         } else {
             System.out.println("\nStorico delle azioni:");
             for (String azione : storicoAzioniUtente) {

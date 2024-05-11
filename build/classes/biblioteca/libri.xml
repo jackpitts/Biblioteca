@@ -1,6 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><libri>
-    <libro data_prestito="2024-05-10 23:28:39" inPrestito="true" titolo="a" utentePrestito="jacopo"/>
-    <libro data_prestito="2024-05-10 23:28:40" data_restituzione="2024-05-10 23:28:44" inPrestito="true" titolo="b" utentePrestito="jacopo"/>
-    <libro data_prestito="2024-05-10 23:48:23" data_restituzione="2024-05-10 23:48:28" inPrestito="true" titolo="harry" utentePrestito="mario"/>
-    <libro inPrestito="false" titolo="potter"/>
-</libri>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><libri><libro anno="4" autore="a" casa_editrice="a" data_prestito="2024-05-11 23:16:07" data_restituzione="2024-05-11 23:01:07" genere="a" inPrestito="true" quantita_disponibile="2" quantita_in_prestito="3" titolo="a" utentePrestito="jacopo:3"/><libro anno="1" autore="b" casa_editrice="b" data_prestito="2024-05-11 23:16:29" genere="b" inPrestito="true" quantita_disponibile="8" quantita_in_prestito="3" titolo="b" utentePrestito="jacopo:3"/></libri>
