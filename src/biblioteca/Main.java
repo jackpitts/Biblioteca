@@ -22,12 +22,6 @@ public class Main {
         LibraryService libraryService = new LibraryService(libraryRepo);
         UserRepository userRepo = new UserRepositoryXML("src\\biblioteca\\utenti.xml");
         UserService userService = new UserService(userRepo);
-//        libraryService.addBook("a", "a", "a", "a", 0, "a", 1);
-
-//        libraryRepo.addBook(book, 100);
-//        libraryRepo.getBooks();
-//        Library biblioteca = new Library(); // Crea un'istanza di Biblioteca
-//        XMLArchive archive = new XMLArchive();
         Scanner scanner = new Scanner(System.in);
         boolean authenticated = false;
         User user = null;
@@ -142,45 +136,40 @@ public class Main {
                     }
                     scanner.nextLine();
                 }
-//
-//                case "3" -> {
-//                    // Prendi un libro in prestito
-//                    System.out.print("Quanti libri vuoi prendere in prestito? ");
-//                    int n = scanner.nextInt();
-//                    scanner.nextLine(); // Consuma il carattere di nuova riga residuo
-//                    if (n > archive.countBooks()) {
-//                        System.out.println("Hai selezionato un numero di libri maggiore rispetto a quelli presenti");
-//                        break;
-//                    }
-//                    for (int i = 0; i < n; i++) {
-//                        System.out.print("Inserisci il titolo del libro che desideri prendere in prestito: ");
-//                        String titoloPrestito = scanner.nextLine();
-//
-//                        // Ottieni la quantità disponibile di questo libro dal documento XML
-//                        int quantitàDiQuestoLibro = archive.getQuantitaDisponibile(archive, titoloPrestito);
-//                        if (quantitàDiQuestoLibro == 0) {
-//                            System.out.println("Libro non disponibile");
-//                            break; // Interrompi il ciclo se il libro non è disponibile
-//                        }
-//
-//                        // Stampa la quantità disponibile nel messaggio per l'utente
-//                        System.out.print("Inserisci la quantita' di libri che desideri prendere in prestito (" + quantitàDiQuestoLibro + " disponibili): ");
-//                        int quantità = scanner.nextInt();
-//                        scanner.nextLine(); // Consuma il carattere di nuova riga residuo
-//
-//                        if (archive.prestitoLibro(titoloPrestito, utenteAutenticato, quantità)) {
-//                            prestiti.put(titoloPrestito, utenteAutenticato); // Associa il prestito all'utente autenticato
-//                            try {
-//                                archive.makeArchivePersistent();
-//                                System.out.println("Libro in prestito con successo!");
-//                            } catch (TransformerException ex) {
-//                                System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
-//                            }
-//                        } else {
-//                            System.out.println("Quantita' di libri non disponibile.");
-//                        }
-//                    }
-//                }
+
+                case "3" -> {
+                    // Prendi un libro in prestito
+                    System.out.print("Quanti libri vuoi prendere in prestito? ");
+                    int n = scanner.nextInt();
+                    scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+                    if (n > libraryService.countBooks()) {
+                        System.out.println("\nHai selezionato un numero di libri maggiore rispetto a quelli presenti");
+                        break;
+                    }
+                    for (int i = 0; i < n; i++) {
+                        System.out.print("Inserisci il titolo del libro che desideri prendere in prestito: ");
+                        String title = scanner.nextLine();
+
+                        // Ottieni la quantità disponibile di questo libro dal documento XML
+                        int currentQuantity = libraryService.getBookQuantity(title);
+                        if (currentQuantity == 0) {
+                            System.out.println("\nLibro non disponibile");
+                            break; // Interrompi il ciclo se il libro non è disponibile
+                        }
+
+                        // Stampa la quantità disponibile nel messaggio per l'utente
+                        System.out.print("Inserisci la quantita' di libri che desideri prendere in prestito (" + currentQuantity + " disponibili): ");
+                        int quantity = scanner.nextInt();
+                        scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+
+                        try {
+                            libraryService.borrow(title, quantity);
+                            System.out.println("\nLibro preso in prestito con successo!");
+                        } catch (Exception ex) {
+                            System.out.println("\nQuantita' di libri non disponibile");
+                        }
+                    }
+                }
 //                case "4" -> {
 //                    System.out.print("Quanti libri vuoi restituire? ");
 //                    int n = scanner.nextInt();

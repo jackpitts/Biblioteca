@@ -1,42 +1,60 @@
 package biblioteca;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LibraryService {
-        
+
     private LibraryRepository libraryRepo;
 
     public LibraryService(LibraryRepository repo) {
         this.libraryRepo = repo;
     }
-    
-    public void addOrUpdateBook(String title, String author, String publisher, String genre, int year, int quantity){
-        
+
+    public void addOrUpdateBook(String title, String author, String publisher, String genre, int year, int quantity) {
+
         Book book = new Book(title, author, publisher, genre, year);
         this.libraryRepo.addOrUpdateBook(book, quantity);
-        
+
     }
-    
+
     public List<Book> getBooks() {
-    
         return this.libraryRepo.getBooks();
     }
-    
-    public boolean hasBook(String title){
+
+    public int countBooks() {
+        return this.getBooks().size();
+    }
+
+    public boolean hasBook(String title) {
         return this.libraryRepo.getBookQuantity(title) > 0;
     }
-    
+
     public Book getBook(String title) throws Exception {
         return this.libraryRepo.getBook(title);
     }
-    
-    public void removeQuantities(String title, int quantity){
+
+    public void removeQuantities(String title, int quantity) {
         int currentQuantity = this.libraryRepo.getBookQuantity(title);
-        if (quantity >= currentQuantity){
+        if (quantity >= currentQuantity) {
             this.libraryRepo.deleteBook(title);
         } else {
             this.libraryRepo.updateQuantity(title, -quantity);
         }
     }
-    
+
+    public void borrow(String title, int quantity) throws Exception {
+
+        Book book = this.getBook(title);
+        if (quantity <= this.libraryRepo.getBookQuantity(title)) {
+            this.libraryRepo.updateQuantity(title, -quantity);
+            return;
+        }
+        throw new Exception();
+    }
+
+    public int getBookQuantity(String title) {
+        return this.libraryRepo.getBookQuantity(title);
+    }
 }
