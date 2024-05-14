@@ -23,4 +23,8 @@ public class UserService {
         }
         throw new Exception();
     }
+    
+    public void addBook(User user, String title, int quantity){
+        this.userRepo.addBook(user, title, quantity);
+    }
 }

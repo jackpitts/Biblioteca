@@ -1,1 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><users><user name="jacopo" password="jacopo"/></users>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><users>
+                                                          
+<user name="jacopo" password="jacopo"><books><book quantity="1" title="a"/></books></user></users>

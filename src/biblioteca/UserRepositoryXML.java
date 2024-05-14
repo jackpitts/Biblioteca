@@ -56,6 +56,8 @@ public class UserRepositoryXML implements UserRepository {
         Element newUserElement = doc.createElement("user");
         newUserElement.setAttribute("name", user.getName());
         newUserElement.setAttribute("password", user.getPassword());
+        Element booksElement = doc.createElement("books");
+        newUserElement.appendChild(booksElement);
         usersElement.appendChild(newUserElement);
         try {
             this.makeArchivePersistent();
@@ -80,6 +82,28 @@ public class UserRepositoryXML implements UserRepository {
             }
         }
         throw new Exception();
+    }
+
+    @Override
+    public void addBook(User user, String title, int quantity) {
+        NodeList userNodes = doc.getElementsByTagName("user");
+
+        for (int i = 0; i < userNodes.getLength(); i++) {
+            Element userElement = (Element) userNodes.item(i);
+            if (userElement.getAttribute("name").equals(user.getName())) {
+                Element booksElement = (Element) userElement.getFirstChild();
+                Element newBookElement = doc.createElement("book");
+                newBookElement.setAttribute("title", title);
+                newBookElement.setAttribute("quantity", String.valueOf(quantity));
+                booksElement.appendChild(newBookElement);
+                try {
+                    this.makeArchivePersistent();
+                } catch (TransformerException ex) {
+                    Logger.getLogger(UserRepositoryXML.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return;
     }
 
     private void makeArchivePersistent() throws TransformerException {

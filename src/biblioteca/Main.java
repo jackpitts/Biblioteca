@@ -164,6 +164,7 @@ public class Main {
 
                         try {
                             libraryService.borrow(title, quantity);
+                            userService.addBook(user, title, quantity);
                             System.out.println("\nLibro preso in prestito con successo!");
                         } catch (Exception ex) {
                             System.out.println("\nQuantita' di libri non disponibile");
