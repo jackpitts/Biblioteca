@@ -219,10 +219,10 @@ public class Main {
 //                    biblioteca.eseguiBiblioteca(utenteAutenticato, archive); // Passa l'oggetto archive
 //                    break;
 //                }
-//                case "0" ->
-//                    System.out.println("Arrivederci!");
-//                default ->
-//                    System.out.println("Comando non riconosciuto");
+                case "0" ->
+                    System.out.println("Arrivederci!");
+                default ->
+                    System.out.println("Comando non riconosciuto");
             }
 
         } while (!scelta.equals(
