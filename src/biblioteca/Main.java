@@ -84,14 +84,13 @@ public class Main {
                     scanner.nextLine(); // Consuma il carattere di nuova riga residuo
 
                     for (int i = 0; i < n; i++) {
-                        System.out.print("Inserisci il titolo del libro che desideri aggiungere: ");
+                        System.out.print("\nInserisci il titolo del libro che desideri aggiungere: ");
                         String title = scanner.nextLine();
 
                         // Verifica se il libro esiste già nell'archivio
                         if (libraryService.hasBook(title)) {
                             // Se il libro esiste già, aumenta semplicemente la quantità disponibile
-                            System.out.println("Il libro esiste gia' nell'archivio.");
-                            System.out.print("Inserisci la quantita' di copie da aggiungere: ");
+                            System.out.println("Il libro esiste gia' nell'archivio, inserisci la quantita' di copie da aggiungere: ");
                             int quantity = scanner.nextInt();
                             try {
                                 Book book = libraryService.getBook(title);
@@ -108,7 +107,7 @@ public class Main {
                             String publisher = scanner.nextLine();
                             System.out.print("Inserisci il genere del libro che desideri aggiungere: ");
                             String genre = scanner.nextLine();
-                            System.out.print("Inserisci l'anno di rilascio del libro che desideri aggiungere: ");
+                            System.out.print("Inserisci l'anno di pubblicazione del libro che desideri aggiungere: ");
                             int year = scanner.nextInt();
                             System.out.print("Inserisci quante copie sono disponibili del libro che desideri aggiungere: ");
                             int quantity = scanner.nextInt();
@@ -134,6 +133,7 @@ public class Main {
                             System.out.print("Libri eliminati con successo!");
                         } else {
                             System.out.println("Libro non trovato");
+                            break; // da fixare
                         }
                     }
                     scanner.nextLine();

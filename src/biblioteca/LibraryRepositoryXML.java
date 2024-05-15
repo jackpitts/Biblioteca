@@ -86,7 +86,7 @@ public class LibraryRepositoryXML implements LibraryRepository {
                 //Se il libro esiste già, aumenta semplicemente la quantità disponibile
                 int currentQuantity = Integer.parseInt(bookElement.getAttribute("quantity"));
                 bookElement.setAttribute("quantity", String.valueOf(currentQuantity + quantity));
-                System.out.println("Libro già presente. Quantità disponibile aggiornata.");
+                System.out.println("Quantita' disponibile aggiornata!");
                 try {
                     this.makeArchivePersistent();
                 } catch (TransformerException ex) {
