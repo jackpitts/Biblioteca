@@ -14,6 +14,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class UserRepositoryXML implements UserRepository {
@@ -93,11 +94,10 @@ public class UserRepositoryXML implements UserRepository {
             if (userElement.getAttribute("name").equals(user.getName())) {
                 NodeList booksNodes = userElement.getElementsByTagName("book");
                 if (booksNodes.getLength() == 0) {
-                    Element booksElement = (Element) userElement.getFirstChild();
                     Element newBookElement = doc.createElement("book");
                     newBookElement.setAttribute("title", title);
                     newBookElement.setAttribute("quantity", String.valueOf(quantity));
-                    booksElement.appendChild(newBookElement);
+                    userElement.appendChild(newBookElement);
                     try {
                         this.makeArchivePersistent();
                     } catch (TransformerException ex) {
@@ -115,19 +115,20 @@ public class UserRepositoryXML implements UserRepository {
                             } catch (TransformerException ex) {
                                 Logger.getLogger(UserRepositoryXML.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                        } else {
-                            Element booksElement = (Element) userElement.getFirstChild();
-                            Element newBookElement = doc.createElement("book");
-                            newBookElement.setAttribute("title", title);
-                            newBookElement.setAttribute("quantity", String.valueOf(quantity));
-                            booksElement.appendChild(newBookElement);
-                            try {
-                                this.makeArchivePersistent();
-                            } catch (TransformerException ex) {
-                                Logger.getLogger(UserRepositoryXML.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                            return;
                         }
                     }
+
+                    Element newBookElement = doc.createElement("book");
+                    newBookElement.setAttribute("title", title);
+                    newBookElement.setAttribute("quantity", String.valueOf(quantity));
+                    userElement.appendChild(newBookElement);
+                    try {
+                        this.makeArchivePersistent();
+                    } catch (TransformerException ex) {
+                        Logger.getLogger(UserRepositoryXML.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                 }
                 return;
             }

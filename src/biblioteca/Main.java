@@ -169,6 +169,7 @@ public class Main {
                             userService.addBook(user, title, quantity);
                             System.out.println("\nLibro preso in prestito con successo!");
                         } catch (Exception ex) {
+                            ex.printStackTrace(new java.io.PrintStream(System.out));
                             System.out.println("\nQuantita' di libri non disponibile");
                         }
                     }
