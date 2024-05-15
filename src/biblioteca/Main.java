@@ -27,6 +27,7 @@ public class Main {
             System.out.println("Benvenuto! Vuoi accedere o registrarti?");
             System.out.println("1. Accedere");
             System.out.println("2. Registrarti");
+            System.out.println("0. Esci");
             System.out.print("Scelta: ");
             String choice = scanner.nextLine();
 
@@ -54,8 +55,12 @@ public class Main {
                     userService.addUser(name, password);
                     System.out.println("Registrazione completata con successo!\n");
                 }
+                case "0" -> {
+                    System.out.println("Arrivederci!");
+                    return;
+                }
                 default ->
-                    System.out.println("Scelta non valida. Riprova.");
+                    System.out.println("Comando non riconosciuto");
             }
         }
 
@@ -222,7 +227,6 @@ public class Main {
                     System.out.println("Comando non riconosciuto");
             }
 
-        } while (!scelta.equals(
-                "0"));
+        } while (!scelta.equals("0"));
     }
 }
