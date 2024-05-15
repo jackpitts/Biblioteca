@@ -1,3 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><books>
-    
-<book author="a" genre="a" publisher="a" quantity="2" title="a" year="2"/></books>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<books>
+    <book author="a" genre="a" publisher="a" quantity="0" title="a" year="2"/>
+</books>

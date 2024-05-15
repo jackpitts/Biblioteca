@@ -91,19 +91,48 @@ public class UserRepositoryXML implements UserRepository {
         for (int i = 0; i < userNodes.getLength(); i++) {
             Element userElement = (Element) userNodes.item(i);
             if (userElement.getAttribute("name").equals(user.getName())) {
-                Element booksElement = (Element) userElement.getFirstChild();
-                Element newBookElement = doc.createElement("book");
-                newBookElement.setAttribute("title", title);
-                newBookElement.setAttribute("quantity", String.valueOf(quantity));
-                booksElement.appendChild(newBookElement);
-                try {
-                    this.makeArchivePersistent();
-                } catch (TransformerException ex) {
-                    Logger.getLogger(UserRepositoryXML.class.getName()).log(Level.SEVERE, null, ex);
+                NodeList booksNodes = userElement.getElementsByTagName("book");
+                if (booksNodes.getLength() == 0) {
+                    Element booksElement = (Element) userElement.getFirstChild();
+                    Element newBookElement = doc.createElement("book");
+                    newBookElement.setAttribute("title", title);
+                    newBookElement.setAttribute("quantity", String.valueOf(quantity));
+                    booksElement.appendChild(newBookElement);
+                    try {
+                        this.makeArchivePersistent();
+                    } catch (TransformerException ex) {
+                        Logger.getLogger(UserRepositoryXML.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    for (int j = 0; j < booksNodes.getLength(); j++) {
+                        Element bookElement = (Element) booksNodes.item(j);
+                        if (bookElement.getAttribute("title").equals(title)) {
+                            // Il libro esiste già, aumenta solo la quantità
+                            int currentQuantity = Integer.parseInt(bookElement.getAttribute("quantity"));
+                            bookElement.setAttribute("quantity", String.valueOf(currentQuantity + quantity));
+                            try {
+                                this.makeArchivePersistent();
+                            } catch (TransformerException ex) {
+                                Logger.getLogger(UserRepositoryXML.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            Element booksElement = (Element) userElement.getFirstChild();
+                            Element newBookElement = doc.createElement("book");
+                            newBookElement.setAttribute("title", title);
+                            newBookElement.setAttribute("quantity", String.valueOf(quantity));
+                            booksElement.appendChild(newBookElement);
+                            try {
+                                this.makeArchivePersistent();
+                            } catch (TransformerException ex) {
+                                Logger.getLogger(UserRepositoryXML.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
                 }
+                return;
             }
+
         }
-        return;
     }
 
     private void makeArchivePersistent() throws TransformerException {

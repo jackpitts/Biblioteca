@@ -1,13 +1,10 @@
 package biblioteca;
 
-import javax.xml.transform.TransformerException;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,7 +42,7 @@ public class Main {
                         user = userService.authUser(name, password);
                         authenticated = true;
                     } catch (Exception ex) {
-                        System.out.println("\nNome utente o password errati\n");
+                        System.out.println("Nome utente o password errati\n");
                     }
                 }
                 case "2" -> {
@@ -69,7 +66,7 @@ public class Main {
             System.out.println("2. Elimina un libro");
             System.out.println("3. Prendi un libro in prestito");
             System.out.println("4. Restituisci un libro");
-            System.out.println("5. Situazione prestiti/restituzioni");
+            System.out.println("5. Storico");
             System.out.println("0. Esci");
 
             System.out.print("Scelta: ");

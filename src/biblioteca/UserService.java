@@ -1,8 +1,5 @@
 package biblioteca;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class UserService {
 
     UserRepository userRepo;
