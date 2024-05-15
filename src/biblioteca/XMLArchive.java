@@ -111,7 +111,6 @@ public class XMLArchive {
             nuovoLibroElement.setAttribute("quantita_in_prestito", "0");
             libriElement.appendChild(nuovoLibroElement);
         }
-
     }
 
     public boolean prestitoLibro(String titolo, String utente, int quantitaRichiesta) {
