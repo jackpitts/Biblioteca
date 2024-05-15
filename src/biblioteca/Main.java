@@ -132,11 +132,10 @@ public class Main {
                             libraryService.removeQuantities(title, quantity);
                             System.out.print("Libri eliminati con successo!");
                         } else {
-                            System.out.println("Libro non trovato");
+                            System.out.println("Libro non trovato!");
                             break; // da fixare
                         }
                     }
-                    scanner.nextLine();
                 }
 
                 case "3" -> {
@@ -174,49 +173,38 @@ public class Main {
                         }
                     }
                 }
-//                case "4" -> {
-//                    System.out.print("Quanti libri vuoi restituire? ");
-//                    int n = scanner.nextInt();
-//                    scanner.nextLine(); // Consuma il carattere di nuova riga residuo
-//
-//                    for (int i = 0; i < n; i++) {
-//                        System.out.print("Inserisci il titolo del libro che desideri restituire: ");
-//                        String titoloRestituzione = scanner.nextLine();
-//
-//                        if (!prestiti.containsKey(titoloRestituzione)) {
-//                            System.out.println("Non hai in prestito questo libro.");
-//                            break; // Termina l'operazione senza chiedere la quantità di libri da restituire
-//                        }
-//
-//                        // Consentire all'utente di restituire fino al limite massimo
-//                        System.out.print("Inserisci la quantita' di copie che desideri restituire (" + archive.quantiLibriPossoRestituire(utenteAutenticato) + " disponibili): ");
-//                        int quantitaRestituzione = scanner.nextInt();
-//                        scanner.nextLine(); // Consuma il carattere di nuova riga residuo
-//
-//                        // Ottienere il numero massimo di libri che l'utente può restituire per questo titolo
-//                        int maxRestituzione = archive.getMaxRestituzioneForUser(utenteAutenticato, quantitaRestituzione);
-//
-//                        // Restituire solo fino al limite massimo
-//                        if (quantitaRestituzione > maxRestituzione) {
-//                            System.out.println("Hai superato il limite massimo di restituzione per questo libro.");
-//                            return;
-//                        }
-//
-//                        // Effettuare la restituzione dei libri
-//                        if (archive.restituisciLibro(titoloRestituzione, utenteAutenticato, quantitaRestituzione)) {
-//                            prestiti.remove(titoloRestituzione); // Rimuovi l'associazione del prestito
-//                            try {
-//                                archive.makeArchivePersistent();
-//                                System.out.println("Libro restituito con successo!");
-//                            } catch (TransformerException ex) {
-//                                System.err.println("Errore durante la scrittura del file XML: " + ex.getMessage());
-//                            }
-//                        } else {
-//                            System.out.println("Impossibile restituire il libro!");
-//                        }
-//                    }
-//                    // Interrompi il case "4" e vai alla prossima iterazione del ciclo
-//                }
+                case "4" -> {
+                    System.out.print("Quanti libri vuoi restituire? ");
+                    int n = scanner.nextInt();
+                    scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+
+                    for (int i = 0; i < n; i++) {
+                        System.out.print("Inserisci il titolo del libro che desideri restituire: ");
+                        String title = scanner.nextLine();
+
+                        // Consentire all'utente di restituire fino al limite massimo
+                        int userBookQuantity = userService.getBookQuantity(user, title);
+                        if (userBookQuantity == 0){
+                            System.out.println("Non possiedi il libro!");
+                            break;
+                        }
+                        System.out.print("Inserisci la quantita' di copie che desideri restituire (" + userBookQuantity + " disponibili): ");
+                        int quantity = scanner.nextInt();
+                        scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+
+                        // Restituire solo fino al limite massimo
+                        if (quantity > userBookQuantity) {
+                            System.out.println("Hai superato il limite massimo di restituzione per questo libro.");
+                            break;
+                        }
+                        try {
+                            userService.returnBook(user, title, quantity);
+                        } catch (Exception ex) {
+                            System.out.println("Erroraccio");
+                        }
+                    }
+                    // Interrompi il case "4" e vai alla prossima iterazione del ciclo
+                }
 //
 //                case "5" -> {
 //                    biblioteca.eseguiBiblioteca(utenteAutenticato, archive); // Passa l'oggetto archive

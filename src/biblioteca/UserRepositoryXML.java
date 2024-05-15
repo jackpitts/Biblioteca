@@ -136,6 +136,58 @@ public class UserRepositoryXML implements UserRepository {
         }
     }
 
+    @Override
+    public void returnBook(User user, String title, int quantity) throws Exception {
+        NodeList userNodes = doc.getElementsByTagName("user");
+
+        for (int i = 0; i < userNodes.getLength(); i++) {
+            Element userElement = (Element) userNodes.item(i);
+            if (userElement.getAttribute("name").equals(user.getName())) {
+                NodeList booksNodes = userElement.getElementsByTagName("book");
+                for (int j = 0; j < booksNodes.getLength(); j++) {
+                    Element bookElement = (Element) booksNodes.item(j);
+                    if (bookElement.getAttribute("title").equals(title)) {
+                        // Il libro esiste già, aumenta solo la quantità
+                        int currentQuantity = Integer.parseInt(bookElement.getAttribute("quantity"));
+                        if (quantity > currentQuantity) {
+                            throw new Exception();
+                        } else if (currentQuantity > quantity) {
+                            bookElement.setAttribute("quantity", String.valueOf(currentQuantity - quantity));
+                        } else {
+                            userElement.removeChild(bookElement);
+                        }
+                        try {
+                            this.makeArchivePersistent();
+                        } catch (TransformerException ex) {
+                            Logger.getLogger(UserRepositoryXML.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public int getBookQuantity(User user, String title) {
+        NodeList userNodes = doc.getElementsByTagName("user");
+
+        for (int i = 0; i < userNodes.getLength(); i++) {
+            Element userElement = (Element) userNodes.item(i);
+            if (userElement.getAttribute("name").equals(user.getName())) {
+                NodeList booksNodes = userElement.getElementsByTagName("book");
+                for (int j = 0; j < booksNodes.getLength(); j++) {
+                    Element bookElement = (Element) booksNodes.item(j);
+                    if (bookElement.getAttribute("title").equals(title)) {
+                        // Il libro esiste già, aumenta solo la quantità
+                        int currentQuantity = Integer.parseInt(bookElement.getAttribute("quantity"));
+                        return currentQuantity;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
     private void makeArchivePersistent() throws TransformerException {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();

@@ -20,8 +20,17 @@ public class UserService {
         }
         throw new Exception();
     }
-    
-    public void addBook(User user, String title, int quantity){
+
+    public void addBook(User user, String title, int quantity) {
         this.userRepo.addBook(user, title, quantity);
     }
+
+    public void returnBook(User user, String title, int quantity) throws Exception {
+        this.userRepo.returnBook(user, title, quantity);
+    }
+
+    public int getBookQuantity(User user, String title){
+        return this.userRepo.getBookQuantity(user, title);
+    }
+
 }
