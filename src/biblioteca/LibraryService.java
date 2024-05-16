@@ -57,4 +57,9 @@ public class LibraryService {
     public int getBookQuantity(String title) {
         return this.libraryRepo.getBookQuantity(title);
     }
+    
+    public List<String> getBookTitles() {
+        return this.libraryRepo.getBookTitles();
+    }
+
 }

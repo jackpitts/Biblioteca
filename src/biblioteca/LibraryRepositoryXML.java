@@ -62,6 +62,18 @@ public class LibraryRepositoryXML implements LibraryRepository {
         return books;
     }
 
+    @Override
+    public List<String> getBookTitles() {
+        List<String> bookTitles = new ArrayList<String>();
+        NodeList bookNodes = doc.getElementsByTagName("book");
+        for (int i = 0; i < bookNodes.getLength(); i++) {
+            Element bookElement = (Element) bookNodes.item(i);
+            String title = bookElement.getAttribute("title");
+            bookTitles.add(title);
+        }
+        return bookTitles;
+    }
+
     public int getBookQuantity(String title) {
         NodeList bookNodes = doc.getElementsByTagName("book");
 

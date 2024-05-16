@@ -71,7 +71,9 @@ public class Main {
             System.out.println("2. Elimina un libro");
             System.out.println("3. Prendi un libro in prestito");
             System.out.println("4. Restituisci un libro");
-            System.out.println("5. Storico");
+            System.out.println("5. Visualizza tutti i libri");
+            System.out.println("6. Cerca libro");
+            System.out.println("7. Storico");
             System.out.println("0. Esci");
 
             System.out.print("Scelta: ");
@@ -205,8 +207,16 @@ public class Main {
                     }
                     // Interrompi il case "4" e vai alla prossima iterazione del ciclo
                 }
+                
+                case "5" -> {
+                    System.out.println(libraryService.getBookTitles());
+                }
+                    
+                case "6" -> {
+                    System.out.println("Arrivederci!");    
+                }
 //
-//                case "5" -> {
+//                case "7" -> {
 //                    biblioteca.eseguiBiblioteca(utenteAutenticato, archive); // Passa l'oggetto archive
 //                    break;
 //                }
