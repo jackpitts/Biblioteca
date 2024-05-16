@@ -74,6 +74,21 @@ public class LibraryRepositoryXML implements LibraryRepository {
         return bookTitles;
     }
 
+    @Override
+    public String getBookTitlesAsString() {
+        List<String> bookTitles = getBookTitles();
+        StringBuilder sb = new StringBuilder();
+        for (String title : bookTitles) {
+            sb.append(title).append("(").append(getBookQuantity(title)).append(" copie), "); // Aggiungi ogni titolo seguito da una virgola
+        }
+        // Rimuovi l'ultima virgola e lo spazio
+        if (sb.length() > 0) {
+            sb.setLength(sb.length() - 2);
+        }
+        return sb.toString();
+    }
+
+    @Override
     public int getBookQuantity(String title) {
         NodeList bookNodes = doc.getElementsByTagName("book");
 
@@ -181,7 +196,28 @@ public class LibraryRepositoryXML implements LibraryRepository {
     }
 
     @Override
-    public void hasBook(String title) {
+    public void searchBook(String title) throws Exception {
+        NodeList bookNodes = doc.getElementsByTagName("book");
+
+        for (int i = 0; i < bookNodes.getLength(); i++) {
+            Element bookElement = (Element) bookNodes.item(i);
+            if (bookElement.getAttribute("title").equals(title)) {
+                String author = bookElement.getAttribute("author");
+                String genre = bookElement.getAttribute("genre");
+                String publisher = bookElement.getAttribute("publisher");
+                int year = Integer.parseInt(bookElement.getAttribute("year"));
+                int quantity = Integer.parseInt(bookElement.getAttribute("quantity"));
+                System.out.println("Titolo: " + title + ", autore: " + author + ", genere: " + genre + ", casa editrice: " + publisher + ", anno di pubblicazione: " + year + ", copie disponibili: " + quantity);
+                return;
+            }
+            throw new Exception();
+        }
+
+    }
+
+    @Override
+    public void hasBook(String title
+    ) {
         throw new UnsupportedOperationException("Not supported yet.");
 
     }

@@ -86,7 +86,7 @@ public class Main {
                     scanner.nextLine(); // Consuma il carattere di nuova riga residuo
 
                     for (int i = 0; i < n; i++) {
-                        System.out.print("\nInserisci il titolo del libro che desideri aggiungere: ");
+                        System.out.print("Inserisci il titolo del libro che desideri aggiungere: ");
                         String title = scanner.nextLine();
 
                         // Verifica se il libro esiste già nell'archivio
@@ -129,10 +129,12 @@ public class Main {
                         System.out.print("Inserisci il titolo del libro che desideri eliminare: ");
                         String title = scanner.nextLine();
                         if (libraryService.hasBook(title)) {
-                            System.out.print("Inserisci il numero di copie che desideri eliminare: ");
+                            System.out.print("Inserisci il numero di copie che desideri eliminare (" + libraryService.getBookQuantity(title) + " disponibili): ");
                             int quantity = scanner.nextInt();
                             libraryService.removeQuantities(title, quantity);
-                            System.out.print("Libri eliminati con successo!");
+                            System.out.print("Libri eliminati con successo!\n");
+                            scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+
                         } else {
                             System.out.println("Libro non trovato!");
                             break; // da fixare
@@ -146,7 +148,7 @@ public class Main {
                     int n = scanner.nextInt();
                     scanner.nextLine(); // Consuma il carattere di nuova riga residuo
                     if (n > libraryService.countBooks()) {
-                        System.out.println("\nHai selezionato un numero di libri maggiore rispetto a quelli presenti");
+                        System.out.println("Hai selezionato un numero di libri maggiore rispetto a quelli presenti");
                         break;
                     }
                     for (int i = 0; i < n; i++) {
@@ -156,7 +158,7 @@ public class Main {
                         // Ottieni la quantità disponibile di questo libro dal documento XML
                         int currentQuantity = libraryService.getBookQuantity(title);
                         if (currentQuantity == 0) {
-                            System.out.println("\nLibro non disponibile");
+                            System.out.println("Libro non disponibile");
                             break; // Interrompi il ciclo se il libro non è disponibile
                         }
 
@@ -168,10 +170,10 @@ public class Main {
                         try {
                             libraryService.borrow(title, quantity);
                             userService.addBook(user, title, quantity);
-                            System.out.println("\nLibro preso in prestito con successo!");
+                            System.out.println("Libro preso in prestito con successo!");
                         } catch (Exception ex) {
                             ex.printStackTrace(new java.io.PrintStream(System.out));
-                            System.out.println("\nQuantita' di libri non disponibile");
+                            System.out.println("Quantita' di libri non disponibile");
                         }
                     }
                 }
@@ -186,7 +188,7 @@ public class Main {
 
                         // Consentire all'utente di restituire fino al limite massimo
                         int userBookQuantity = userService.getBookQuantity(user, title);
-                        if (userBookQuantity == 0){
+                        if (userBookQuantity == 0) {
                             System.out.println("Non possiedi il libro!");
                             break;
                         }
@@ -202,20 +204,26 @@ public class Main {
                         try {
                             userService.returnBook(user, title, quantity);
                         } catch (Exception ex) {
-                            System.out.println("Erroraccio");
+                            System.out.println("Errore");
                         }
                     }
                     // Interrompi il case "4" e vai alla prossima iterazione del ciclo
                 }
-                
+
                 case "5" -> {
-                    System.out.println(libraryService.getBookTitles());
+                    System.out.println("I libri presenti nella biblioteca sono: " + libraryService.getBookTitlesAsString());
                 }
-                    
+
                 case "6" -> {
-                    System.out.println("Arrivederci!");    
+                    System.out.print("Inserisci il titolo del libro che desideri cercare: ");
+                    String title = scanner.nextLine();
+                    try {
+                        libraryService.searchBook(title);
+                    } catch (Exception ex) {
+                        System.out.println("Libro non trovato");
+                    }
                 }
-//
+
 //                case "7" -> {
 //                    biblioteca.eseguiBiblioteca(utenteAutenticato, archive); // Passa l'oggetto archive
 //                    break;

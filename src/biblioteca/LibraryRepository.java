@@ -12,5 +12,6 @@ interface LibraryRepository{
     public Book getBook(String title) throws Exception;
     public void updateQuantity(String title, int quantity);
     public List<String> getBookTitles();
-   
+    public String getBookTitlesAsString();
+    public void searchBook(String title) throws Exception;
 }
