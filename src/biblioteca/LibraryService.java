@@ -46,7 +46,6 @@ public class LibraryService {
     
     public void borrow(String title, int quantity) throws Exception {
         
-        Book book = this.getBook(title);
         if (quantity <= this.libraryRepo.getBookQuantity(title)) {
             this.libraryRepo.updateQuantity(title, -quantity);
             return;
