@@ -11,10 +11,8 @@ public class LibraryService {
     }
 
     public void addOrUpdateBook(String title, String author, String publisher, String genre, int year, int quantity) {
-
         Book book = new Book(title, author, publisher, genre, year);
         this.libraryRepo.addOrUpdateBook(book, quantity);
-
     }
 
     public List<Book> getBooks() {
