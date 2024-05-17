@@ -3,10 +3,11 @@ package biblioteca;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.Duration;
 
 public class Main {
 
@@ -22,6 +23,21 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         boolean authenticated = false;
         User user = null;
+
+        // Definisci le date come stringhe
+        String dateStr1 = "2023-05-01 10:00:00";
+        String dateStr2 = "2023-05-02 12:30:00";
+
+        // Converti le stringhe in oggetti LocalDateTime
+        LocalDateTime dateTime1 = LocalDateTime.parse(dateStr1, formatter);
+        LocalDateTime dateTime2 = LocalDateTime.parse(dateStr2, formatter);
+
+        // Calcola la differenza in ore
+        Duration duration = Duration.between(dateTime1, dateTime2);
+        long hours = duration.toHours();
+
+        // Stampa il risultato
+        System.out.println("La differenza in ore e': " + hours);
 
         while (!authenticated) {
             System.out.println("Benvenuto! Vuoi accedere o registrarti?");
