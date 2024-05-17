@@ -1,8 +1,5 @@
 package biblioteca;
 
-import java.time.LocalDate;
-import java.util.Date;
-
 class Book {
 
     private String title, author, publisher, genre;

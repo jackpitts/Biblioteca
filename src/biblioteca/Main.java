@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.Duration;
 
 public class Main {
 
@@ -23,21 +22,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         boolean authenticated = false;
         User user = null;
-
-        // Definisci le date come stringhe
-        String dateStr1 = "2023-05-01 10:00:00";
-        String dateStr2 = "2023-05-02 12:30:00";
-
-        // Converti le stringhe in oggetti LocalDateTime
-        LocalDateTime dateTime1 = LocalDateTime.parse(dateStr1, formatter);
-        LocalDateTime dateTime2 = LocalDateTime.parse(dateStr2, formatter);
-
-        // Calcola la differenza in ore
-        Duration duration = Duration.between(dateTime1, dateTime2);
-        long hours = duration.toHours();
-
-        // Stampa il risultato
-        System.out.println("La differenza in ore e': " + hours);
 
         while (!authenticated) {
             System.out.println("Benvenuto! Vuoi accedere o registrarti?");
@@ -80,16 +64,16 @@ public class Main {
             }
         }
 
-        System.out.println("Ciao, benvenuto nella biblioteca, cosa vuoi fare?");
+        System.out.println("Ciao " + user.getName() +", benvenuto nella biblioteca, cosa vuoi fare?");
         String scelta;
         do {
-            System.out.println("\n1. Aggiungi un libro");
-            System.out.println("2. Elimina un libro");
-            System.out.println("3. Prendi un libro in prestito");
-            System.out.println("4. Restituisci un libro");
-            System.out.println("5. Visualizza tutti i libri");
-            System.out.println("6. Cerca libro");
-            System.out.println("7. Storico");
+            System.out.println("\n1. Aggiungi libri");
+            System.out.println("2. Elimina libri");
+            System.out.println("3. Prestiti");
+            System.out.println("4. Restituzioni");
+            System.out.println("5. Visualizza catalogo");
+            System.out.println("6. Cerca libri");
+            System.out.println("7. Storico azioni");
             System.out.println("0. Esci");
 
             System.out.print("Scelta: ");
@@ -109,7 +93,7 @@ public class Main {
                         // Verifica se il libro esiste già nell'archivio
                         if (libraryService.hasBook(title)) {
                             // Se il libro esiste già, aumenta semplicemente la quantità disponibile
-                            System.out.println("Il libro esiste gia' nell'archivio, inserisci la quantita' di copie da aggiungere: ");
+                            System.out.print("Il libro esiste gia' nell'archivio, inserisci la quantita' di copie da aggiungere: ");
                             int quantity = scanner.nextInt();
                             try {
                                 Book book = libraryService.getBook(title);
@@ -220,6 +204,8 @@ public class Main {
                         }
                         try {
                             userService.returnBook(user, title, quantity);
+                            libraryService.updateQuantity(title, quantity);
+                            System.out.println("Restituzione effettuata con successo!");
                         } catch (Exception ex) {
                             System.out.println("Errore");
                         }
@@ -229,7 +215,8 @@ public class Main {
 
                 case "5" -> {
                     try {
-                        System.out.println("I libri presenti nella biblioteca sono: " + libraryService.getBookTitlesAsString());
+                        System.out.println("I libri presenti nella biblioteca sono i seguenti: ");
+                        System.out.println(libraryService.getBookTitlesAsString());
                     } catch (Exception ex) {
                         System.out.println("Nessun libro presente nella biblioteca!");
                     }
@@ -239,9 +226,10 @@ public class Main {
                     System.out.print("Inserisci il titolo del libro che desideri cercare: ");
                     String title = scanner.nextLine();
                     try {
+                        System.out.println("Il libro e' disponibile, di seguito i dettagli: ");
                         libraryService.searchBook(title);
                     } catch (Exception ex) {
-                        System.out.println("Libro non trovato");
+                        System.out.println("Libro non trovato nel catalogo");
                     }
                 }
 

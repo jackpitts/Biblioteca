@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -82,7 +81,7 @@ public class LibraryRepositoryXML implements LibraryRepository {
     }
         StringBuilder sb = new StringBuilder();
         for (String title : bookTitles) {
-            sb.append(title).append("(").append(getBookQuantity(title)).append(" copie), "); // Aggiungi ogni titolo seguito da una virgola
+            sb.append(title).append(": ").append(getBookQuantity(title)).append(" copie, "); // Aggiungi ogni titolo seguito da una virgola
         }
         // Rimuovi l'ultima virgola e lo spazio
         if (sb.length() > 0) {
