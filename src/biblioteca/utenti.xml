@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><users>                                                         
     <user name="jacopo" password="jacopo">
         
-    <book date="2024-05-17 16:34:34" quantity="7" title="a"/></user>
+        <book date="2024-05-17 23:27:21" quantity="5" title="a"/>
+        <book date="2024-05-17 23:27:29" quantity="5" title="b"/>
+    </user>
     <user name="mario" password="mario">
         <books/>
-        <book date="2024-05-17 13:10:44" quantity="10" title="a"/>
+        
     </user>
 </users>

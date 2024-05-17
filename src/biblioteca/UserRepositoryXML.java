@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -190,6 +192,45 @@ public class UserRepositoryXML implements UserRepository {
             }
         }
         return 0;
+    }
+
+    @Override
+    public List<String> getBookTitles(User user) {
+        NodeList userNodes = doc.getElementsByTagName("user");
+
+        for (int i = 0; i < userNodes.getLength(); i++) {
+            Element userElement = (Element) userNodes.item(i);
+            if (userElement.getAttribute("name").equals(user.getName())) {
+                List<String> bookTitles = new ArrayList<String>();
+                NodeList bookNodes = userElement.getElementsByTagName("book");
+                for (int j = 0; j < bookNodes.getLength(); j++) {
+                    Element bookElement = (Element) bookNodes.item(j);
+                    String title = bookElement.getAttribute("title");
+                    String date = bookElement.getAttribute("date");
+                    String quantity = bookElement.getAttribute("quantity");
+                    bookTitles.add("Libro: " + title + ", numero di copie: " + quantity + ", preso in data: " + date);
+                }
+                return bookTitles;
+            }
+        }
+        return new ArrayList<String>(); // Ritorna una stringa vuota
+    }
+
+    @Override
+    public String getBookTitlesAsString(User user) {
+        List<String> bookTitles = getBookTitles(user);
+        if (bookTitles.isEmpty()) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (String title : bookTitles) {
+            sb.append(title).append("\n"); // Aggiungi ogni titolo seguito da un a capo
+        }
+        // Rimuovi l'ultimo a capo
+        if (sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
+        }
+        return sb.toString();
     }
 
     private void makeArchivePersistent() throws TransformerException {

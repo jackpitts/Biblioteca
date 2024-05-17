@@ -1,5 +1,7 @@
 package biblioteca;
 
+import java.util.List;
+
 public class UserService {
 
     UserRepository userRepo;
@@ -32,5 +34,14 @@ public class UserService {
     public int getBookQuantity(User user, String title){
         return this.userRepo.getBookQuantity(user, title);
     }
+    
+    public List<String> getBookTitles(User user){
+        return this.userRepo.getBookTitles(user);
+    }
+    
+    public String getBookTitlesAsString(User user){
+        return this.userRepo.getBookTitlesAsString(user);
+    }
+
 
 }

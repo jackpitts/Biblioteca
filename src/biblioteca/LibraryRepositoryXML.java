@@ -81,11 +81,11 @@ public class LibraryRepositoryXML implements LibraryRepository {
     }
         StringBuilder sb = new StringBuilder();
         for (String title : bookTitles) {
-            sb.append(title).append(": ").append(getBookQuantity(title)).append(" copie, "); // Aggiungi ogni titolo seguito da una virgola
+            sb.append("Libro: ").append(title).append(", numero di copie: ").append(getBookQuantity(title)).append("\n"); // Aggiungi ogni titolo seguito da un a capo
         }
-        // Rimuovi l'ultima virgola e lo spazio
+        // Rimuovi l'ultimo a capo
         if (sb.length() > 0) {
-            sb.setLength(sb.length() - 2);
+            sb.setLength(sb.length() - 1);
         }
         return sb.toString();
     }
