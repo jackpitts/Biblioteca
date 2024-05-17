@@ -78,6 +78,7 @@ public class Main {
 
             System.out.print("Scelta: ");
             scelta = scanner.nextLine();
+            System.out.print("\n");
 
             switch (scelta) {
                 case "1" -> {
@@ -211,7 +212,11 @@ public class Main {
                 }
 
                 case "5" -> {
-                    System.out.println("I libri presenti nella biblioteca sono: " + libraryService.getBookTitlesAsString());
+                    try {
+                        System.out.println("I libri presenti nella biblioteca sono: " + libraryService.getBookTitlesAsString());
+                    } catch (Exception ex) {
+                        System.out.println("Nessun libro presente nella biblioteca!");
+                    }
                 }
 
                 case "6" -> {

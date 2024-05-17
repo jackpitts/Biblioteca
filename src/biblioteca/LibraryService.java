@@ -62,7 +62,7 @@ public class LibraryService {
         return this.libraryRepo.getBookTitles();
     }
     
-    public String getBookTitlesAsString() {
+    public String getBookTitlesAsString()throws Exception {
         return this.libraryRepo.getBookTitlesAsString();
     }
     

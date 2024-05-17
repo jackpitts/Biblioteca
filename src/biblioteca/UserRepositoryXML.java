@@ -2,6 +2,8 @@ package biblioteca;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -88,6 +90,7 @@ public class UserRepositoryXML implements UserRepository {
     @Override
     public void addBook(User user, String title, int quantity) {
         NodeList userNodes = doc.getElementsByTagName("user");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         for (int i = 0; i < userNodes.getLength(); i++) {
             Element userElement = (Element) userNodes.item(i);
@@ -97,6 +100,7 @@ public class UserRepositoryXML implements UserRepository {
                     Element newBookElement = doc.createElement("book");
                     newBookElement.setAttribute("title", title);
                     newBookElement.setAttribute("quantity", String.valueOf(quantity));
+                    newBookElement.setAttribute("date", LocalDateTime.now().format(formatter));
                     userElement.appendChild(newBookElement);
                     try {
                         this.makeArchivePersistent();
@@ -110,6 +114,7 @@ public class UserRepositoryXML implements UserRepository {
                             // Il libro esiste già, aumenta solo la quantità
                             int currentQuantity = Integer.parseInt(bookElement.getAttribute("quantity"));
                             bookElement.setAttribute("quantity", String.valueOf(currentQuantity + quantity));
+                            bookElement.setAttribute("date", LocalDateTime.now().format(formatter));
                             try {
                                 this.makeArchivePersistent();
                             } catch (TransformerException ex) {

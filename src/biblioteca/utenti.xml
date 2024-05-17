@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><users>                                                         
     <user name="jacopo" password="jacopo">
-        <book quantity="2" title="a"/>
+        <book date="2024-05-17 08:45:52" quantity="12" title="a"/>
     </user>
     <user name="mario" password="mario">
         <books/>

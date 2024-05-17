@@ -75,8 +75,11 @@ public class LibraryRepositoryXML implements LibraryRepository {
     }
 
     @Override
-    public String getBookTitlesAsString() {
+    public String getBookTitlesAsString()throws Exception {
         List<String> bookTitles = getBookTitles();
+        if (bookTitles.isEmpty()) {
+        throw new Exception();
+    }
         StringBuilder sb = new StringBuilder();
         for (String title : bookTitles) {
             sb.append(title).append("(").append(getBookQuantity(title)).append(" copie), "); // Aggiungi ogni titolo seguito da una virgola
@@ -197,8 +200,8 @@ public class LibraryRepositoryXML implements LibraryRepository {
 
     @Override
     public void searchBook(String title) throws Exception {
-        NodeList bookNodes = doc.getElementsByTagName("book");
 
+        NodeList bookNodes = doc.getElementsByTagName("book");
         for (int i = 0; i < bookNodes.getLength(); i++) {
             Element bookElement = (Element) bookNodes.item(i);
             if (bookElement.getAttribute("title").equals(title)) {
@@ -210,9 +213,8 @@ public class LibraryRepositoryXML implements LibraryRepository {
                 System.out.println("Titolo: " + title + ", autore: " + author + ", genere: " + genre + ", casa editrice: " + publisher + ", anno di pubblicazione: " + year + ", copie disponibili: " + quantity);
                 return;
             }
-            throw new Exception();
         }
-
+        throw new Exception();
     }
 
     @Override
