@@ -24,10 +24,13 @@ public class Main {
         User user = null;
 
         while (!authenticated) {
+
             System.out.println("Benvenuto! Vuoi accedere o registrarti?");
-            System.out.println("1. Accedere");
-            System.out.println("2. Registrarti");
-            System.out.println("0. Esci");
+            System.out.println("+--------------------+");
+            System.out.println("|   1. Accedere      |");
+            System.out.println("|   2. Registrarti   |");
+            System.out.println("|   0. Esci          |");
+            System.out.println("+--------------------+");
             System.out.print("Scelta: ");
             String choice = scanner.nextLine();
 
@@ -64,17 +67,19 @@ public class Main {
             }
         }
 
-        System.out.println("Ciao " + user.getName() +", benvenuto nella biblioteca, cosa vuoi fare?");
+        System.out.println("Ciao " + user.getName() + ", benvenuto nella biblioteca, cosa vuoi fare?");
         String scelta;
         do {
-            System.out.println("\n1. Aggiungi libri");
-            System.out.println("2. Elimina libri");
-            System.out.println("3. Prestiti");
-            System.out.println("4. Restituzioni");
-            System.out.println("5. Visualizza catalogo");
-            System.out.println("6. Cerca libri");
-            System.out.println("7. Storico azioni");
-            System.out.println("0. Esci");
+            System.out.println("+-----------------------------+");
+            System.out.println("|    1. Aggiungi libri        |");
+            System.out.println("|    2. Elimina libri         |");
+            System.out.println("|    3. Prestiti              |");
+            System.out.println("|    4. Restituzioni          |");
+            System.out.println("|    5. Visualizza catalogo   |");
+            System.out.println("|    6. Cerca libri           |");
+            System.out.println("|    7. Storico azioni        |");
+            System.out.println("|    0. Esci                  |");
+            System.out.println("+-----------------------------+");
 
             System.out.print("Scelta: ");
             scelta = scanner.nextLine();
