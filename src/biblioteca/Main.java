@@ -23,7 +23,7 @@ public class Main {
             System.out.println("|   2. Registrarti   |");
             System.out.println("|   0. Esci          |");
             System.out.println("+--------------------+");
-            System.out.print("Scelta: ");
+            System.out.print("\nScelta: ");
             String choice = scanner.nextLine();
 
             switch (choice) {
@@ -74,9 +74,8 @@ public class Main {
             System.out.println("|    0. Esci                        |");
             System.out.println("+-----------------------------------+");
 
-            System.out.print("Scelta: ");
+            System.out.print("\nScelta: ");
             choice = scanner.nextLine();
-            System.out.print("\n");
 
             switch (choice) {
                 case "1" -> {
@@ -116,7 +115,7 @@ public class Main {
                             scanner.nextLine();
                         }
                     }
-                    System.out.println("Catalogo aggiornato con successo!");
+                    System.out.println("Catalogo aggiornato con successo!\n");
                     break;
                 }
 
@@ -134,7 +133,7 @@ public class Main {
                             System.out.print("Catalogo aggiornato con successo!\n");
                             scanner.nextLine();
                         } else {
-                            System.out.println("Libro non trovato!");
+                            System.out.println("Libro non trovato!\n");
                             break;
                         }
                     }
@@ -155,7 +154,7 @@ public class Main {
                         // Ottieni la quantità disponibile di questo libro dal documento XML
                         int currentQuantity = libraryService.getBookQuantity(title);
                         if (currentQuantity == 0) {
-                            System.out.println("Libro attualmente non disponibile");
+                            System.out.println("Libro attualmente non disponibile\n");
                             break; // Interrompi il ciclo se il libro non è disponibile
                         }
 
@@ -167,10 +166,10 @@ public class Main {
                         try {
                             libraryService.borrow(title, quantity);
                             userService.addBook(user, title, quantity);
-                            System.out.println("Prestito effettuato con successo!");
+                            System.out.println("Prestito effettuato con successo!\n");
                         } catch (Exception ex) {
                             ex.printStackTrace(new java.io.PrintStream(System.out));
-                            System.out.println("La quantita' di copie inserita è maggiore di quelle disponibili");
+                            System.out.println("La quantita' di copie inserita è maggiore di quelle disponibili\n");
                         }
                     }
                 }
@@ -188,7 +187,7 @@ public class Main {
                         int userBookQuantity = userService.getBookQuantity(user, title);
                         // Se l'utente non ha il libro
                         if (userBookQuantity == 0) {
-                            System.out.println("Non possiedi il libro!");
+                            System.out.println("Non possiedi il libro!\n");
                             break;
                         }
                         System.out.print("Inserisci la quantita' di copie che desideri restituire (" + userBookQuantity + " disponibili): ");
@@ -197,15 +196,15 @@ public class Main {
 
                         // Restituire solo fino al limite massimo di copie in possesso
                         if (quantity > userBookQuantity) {
-                            System.out.println("Hai selezionato una quantita' di copie maggiore rispetto a quelle in tuo possesso");
+                            System.out.println("Hai selezionato una quantita' di copie maggiore rispetto a quelle in tuo possesso\n");
                             break;
                         }
                         try {
                             userService.returnBook(user, title, quantity);
                             libraryService.updateQuantity(title, quantity);
-                            System.out.println("Restituzione effettuata con successo!");
+                            System.out.println("Restituzione effettuata con successo!\n");
                         } catch (Exception ex) {
-                            System.out.println("Errore");
+                            System.out.println("Errore\n");
                         }
                     }
                 }
@@ -215,7 +214,7 @@ public class Main {
                         System.out.println("I libri presenti nella biblioteca sono i seguenti: ");
                         System.out.println(libraryService.getBookTitlesAsString());
                     } catch (Exception ex) {
-                        System.out.println("Nessun libro presente nel catalogo della biblioteca attualmente");
+                        System.out.println("Nessun libro presente nel catalogo della biblioteca attualmente\n");
                     }
                 }
 
@@ -226,25 +225,26 @@ public class Main {
                         System.out.println("Ecco i dettagli del libro richiesto: ");
                         libraryService.searchBook(title);
                     } catch (Exception ex) {
-                        System.out.println("Libro non trovato nel catalogo");
+                        System.out.println("Libro non trovato nel catalogo\n");
                     }
                 }
                 case "7" -> {
                     try {
                         String bookTitles = userService.getBookTitlesAsString(user);
                         if (bookTitles.isEmpty()) {
-                            System.out.println("Non hai libri in prestito");
+                            System.out.println("Attualmente non hai nessun libro in prestito\n");
                         } else {
                             System.out.println("I libri che hai attualmente in prestito sono i seguenti: ");
                             System.out.println(bookTitles);
                         }
                     } catch (Exception ex) {
                         // Gestione di un eventuale eccezione
-                        System.out.println("Si è verificato un errore nel recuperare i libri in prestito");
+                        System.out.println("Si è verificato un errore nel recuperare i libri in prestito\n");
                     }
                 }
 
                 case "8" -> {
+                    System.out.println("Da implementare");
                 }
                 
                 case "0" ->

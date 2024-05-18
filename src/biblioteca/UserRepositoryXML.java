@@ -226,10 +226,6 @@ public class UserRepositoryXML implements UserRepository {
         for (String title : bookTitles) {
             sb.append(title).append("\n"); // Aggiungi ogni titolo seguito da un a capo
         }
-        // Rimuovi l'ultimo a capo
-        if (sb.length() > 0) {
-            sb.setLength(sb.length() - 1);
-        }
         return sb.toString();
     }
 

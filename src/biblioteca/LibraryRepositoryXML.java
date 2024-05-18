@@ -83,10 +83,6 @@ public class LibraryRepositoryXML implements LibraryRepository {
         for (String title : bookTitles) {
             sb.append("Libro: ").append(title).append(", numero di copie: ").append(getBookQuantity(title)).append("\n"); // Aggiungi ogni titolo seguito da un a capo
         }
-        // Rimuovi l'ultimo a capo
-        if (sb.length() > 0) {
-            sb.setLength(sb.length() - 1);
-        }
         return sb.toString();
     }
 
@@ -115,7 +111,6 @@ public class LibraryRepositoryXML implements LibraryRepository {
                 //Se il libro esiste già, aumenta semplicemente la quantità disponibile
                 int currentQuantity = Integer.parseInt(bookElement.getAttribute("quantity"));
                 bookElement.setAttribute("quantity", String.valueOf(currentQuantity + quantity));
-                System.out.println("Quantita' disponibile aggiornata!");
                 try {
                     this.makeArchivePersistent();
                 } catch (TransformerException ex) {
@@ -209,7 +204,7 @@ public class LibraryRepositoryXML implements LibraryRepository {
                 String publisher = bookElement.getAttribute("publisher");
                 int year = Integer.parseInt(bookElement.getAttribute("year"));
                 int quantity = Integer.parseInt(bookElement.getAttribute("quantity"));
-                System.out.println("Titolo: " + title + ", autore: " + author + ", genere: " + genre + ", casa editrice: " + publisher + ", anno di pubblicazione: " + year + ", copie disponibili: " + quantity);
+                System.out.println("Titolo: " + title + ", autore: " + author + ", genere: " + genre + ", casa editrice: " + publisher + ", anno di pubblicazione: " + year + ", copie disponibili: " + quantity + "\n");
                 return;
             }
         }
