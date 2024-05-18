@@ -44,9 +44,9 @@ public class Main {
                 case "2" -> {
                     System.out.println("Registrazione utente:");
                     System.out.print("Inserisci il nome utente che vuoi registrare: ");
-                    String name = scanner.nextLine();
+                    String name = scanner.nextLine().replaceAll("\\s+","");
                     System.out.print("Inserisci la tua password: ");
-                    String password = scanner.nextLine();
+                    String password = scanner.nextLine().replaceAll("\\s+","");
                     userService.addUser(name, password);
                     System.out.println("Registrazione completata con successo!\n");
                 }

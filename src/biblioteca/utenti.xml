@@ -8,4 +8,7 @@
         <books/>
         
     </user>
+    <user name="luigi" password="luigi">
+        <books/>
+    </user>
 </users>
