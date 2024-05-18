@@ -1,6 +1,10 @@
 package biblioteca;
 
 import java.util.List;
+enum UserAction {
+  prestito,
+  restituzione
+}
 
 interface UserRepository {
     
@@ -11,5 +15,7 @@ interface UserRepository {
     public int getBookQuantity(User user, String title);
     public List<String> getBookTitles(User user);
     public String getBookTitlesAsString(User user);
-
+    public void addHistory(User user, String title, int quantity, UserAction userAction);
+    public List<History> getHistory(User user);
+    
 }

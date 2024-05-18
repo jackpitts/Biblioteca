@@ -25,23 +25,28 @@ public class UserService {
 
     public void addBook(User user, String title, int quantity) {
         this.userRepo.addBook(user, title, quantity);
+        this.userRepo.addHistory(user, title, quantity, UserAction.prestito);
     }
 
     public void returnBook(User user, String title, int quantity) throws Exception {
         this.userRepo.returnBook(user, title, quantity);
+        this.userRepo.addHistory(user, title, quantity, UserAction.restituzione);
     }
 
-    public int getBookQuantity(User user, String title){
+    public int getBookQuantity(User user, String title) {
         return this.userRepo.getBookQuantity(user, title);
     }
-    
-    public List<String> getBookTitles(User user){
+
+    public List<String> getBookTitles(User user) {
         return this.userRepo.getBookTitles(user);
     }
-    
-    public String getBookTitlesAsString(User user){
+
+    public String getBookTitlesAsString(User user) {
         return this.userRepo.getBookTitlesAsString(user);
     }
-
+    
+    public List<History> getHistory(User user){
+        return  this.userRepo.getHistory(user);
+    }
 
 }

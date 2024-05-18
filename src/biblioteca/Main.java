@@ -1,5 +1,6 @@
 package biblioteca;
 
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,12 +27,12 @@ public class Main {
             System.out.print("\nScelta: ");
             String choice = scanner.nextLine();
 
-            switch (choice.replaceAll("\\s+","")) {
+            switch (choice.replaceAll("\\s+", "")) {
                 case "1" -> {
                     System.out.print("Inserisci il tuo nome utente: ");
-                    String name = scanner.nextLine().replaceAll("\\s+","");
+                    String name = scanner.nextLine().replaceAll("\\s+", "");
                     System.out.print("Inserisci la tua password: ");
-                    String password = scanner.nextLine().replaceAll("\\s+","");
+                    String password = scanner.nextLine().replaceAll("\\s+", "");
                     System.out.print("\n");
 
                     try {
@@ -44,9 +45,9 @@ public class Main {
                 case "2" -> {
                     System.out.println("Registrazione utente:");
                     System.out.print("Inserisci il nome utente che vuoi registrare: ");
-                    String name = scanner.nextLine().replaceAll("\\s+","");
+                    String name = scanner.nextLine().replaceAll("\\s+", "");
                     System.out.print("Inserisci la tua password: ");
-                    String password = scanner.nextLine().replaceAll("\\s+","");
+                    String password = scanner.nextLine().replaceAll("\\s+", "");
                     userService.addUser(name, password);
                     System.out.println("Registrazione completata con successo!\n");
                 }
@@ -77,7 +78,7 @@ public class Main {
             System.out.print("\nScelta: ");
             choice = scanner.nextLine();
 
-            switch (choice.replaceAll("\\s+","")) {
+            switch (choice.replaceAll("\\s+", "")) {
                 case "1" -> {
                     System.out.print("Quanti libri vuoi aggiungere? ");
                     int n = scanner.nextInt();
@@ -244,14 +245,23 @@ public class Main {
                 }
 
                 case "8" -> {
-                    System.out.println("Da implementare");
+                    List<History> history = userService.getHistory(user);
+                    if (history.isEmpty()) {
+                        System.out.println("Nessuno storico disponibile");
+                    } else {
+                        System.out.println("Ecco lo storico delle azioni:");
+                        for (int i = 0; i < history.size(); i++) {
+                            System.out.println("Azione: " + history.get(i).getUserAction() + ", Titolo: " + history.get(i).getTitle() + ", numero di copie: " + history.get(i).getQuantity() + ", in data: " + history.get(i).getDate());
+                        }
+                    }
+                    System.out.print("\n");
                 }
-                
+
                 case "0" ->
                     System.out.println("Arrivederci!");
-                    
+
                 default ->
-                    System.out.println("Comando non riconosciuto");
+                    System.out.println("Comando non riconosciuto\n");
             }
 
         } while (!choice.equals("0"));

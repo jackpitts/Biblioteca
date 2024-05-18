@@ -60,8 +60,6 @@ public class UserRepositoryXML implements UserRepository {
         Element newUserElement = doc.createElement("user");
         newUserElement.setAttribute("name", user.getName());
         newUserElement.setAttribute("password", user.getPassword());
-        Element booksElement = doc.createElement("books");
-        newUserElement.appendChild(booksElement);
         usersElement.appendChild(newUserElement);
         try {
             this.makeArchivePersistent();
@@ -69,6 +67,29 @@ public class UserRepositoryXML implements UserRepository {
             Logger.getLogger(LibraryRepositoryXML.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    @Override
+    public void addHistory(User user, String title, int quantity, UserAction userAction) {
+        NodeList userNodes = doc.getElementsByTagName("user");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+        for (int i = 0; i < userNodes.getLength(); i++) {
+            Element userElement = (Element) userNodes.item(i);
+            if (userElement.getAttribute("name").equals(user.getName())) {
+                Element newHistoryElement = doc.createElement("history");
+                newHistoryElement.setAttribute("title", title);
+                newHistoryElement.setAttribute("quantity", String.valueOf(quantity));
+                newHistoryElement.setAttribute("date", LocalDateTime.now().format(formatter));
+                newHistoryElement.setAttribute("action", userAction.name());
+                userElement.appendChild(newHistoryElement);
+                try {
+                    this.makeArchivePersistent();
+                } catch (TransformerException ex) {
+                    Logger.getLogger(UserRepositoryXML.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
 
     @Override
@@ -91,7 +112,7 @@ public class UserRepositoryXML implements UserRepository {
     @Override
     public void addBook(User user, String title, int quantity) {
         NodeList userNodes = doc.getElementsByTagName("user");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
         for (int i = 0; i < userNodes.getLength(); i++) {
             Element userElement = (Element) userNodes.item(i);
@@ -227,6 +248,31 @@ public class UserRepositoryXML implements UserRepository {
             sb.append(title).append("\n"); // Aggiungi ogni titolo seguito da un a capo
         }
         return sb.toString();
+    }
+
+    @Override
+    public List<History> getHistory(User user) {
+        NodeList userNodes = doc.getElementsByTagName("user");
+        List<History> history = new ArrayList<History>();
+
+        for (int i = 0; i < userNodes.getLength(); i++) {
+            Element userElement = (Element) userNodes.item(i);
+            if (userElement.getAttribute("name").equals(user.getName())) {
+                NodeList historyNodes = userElement.getElementsByTagName("history");
+                if (historyNodes.getLength() > 0) {
+                    for (int j = 0; j < historyNodes.getLength(); j++) {
+                        Element historyElement = (Element) historyNodes.item(j);
+                        String title = historyElement.getAttribute("title");
+                        String date = historyElement.getAttribute("date");
+                        UserAction action = UserAction.valueOf(historyElement.getAttribute("action"));
+                        int quantity = Integer.parseInt(historyElement.getAttribute("quantity"));
+                        history.add(new History(title, quantity, action, date));
+                    }
+
+                }
+            }
+        }
+        return history;
     }
 
     private void makeArchivePersistent() throws TransformerException {
