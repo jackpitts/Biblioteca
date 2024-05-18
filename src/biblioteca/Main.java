@@ -26,12 +26,12 @@ public class Main {
             System.out.print("\nScelta: ");
             String choice = scanner.nextLine();
 
-            switch (choice) {
+            switch (choice.replaceAll("\\s+","")) {
                 case "1" -> {
                     System.out.print("Inserisci il tuo nome utente: ");
-                    String name = scanner.nextLine();
+                    String name = scanner.nextLine().replaceAll("\\s+","");
                     System.out.print("Inserisci la tua password: ");
-                    String password = scanner.nextLine();
+                    String password = scanner.nextLine().replaceAll("\\s+","");
                     System.out.print("\n");
 
                     try {
@@ -77,7 +77,7 @@ public class Main {
             System.out.print("\nScelta: ");
             choice = scanner.nextLine();
 
-            switch (choice) {
+            switch (choice.replaceAll("\\s+","")) {
                 case "1" -> {
                     System.out.print("Quanti libri vuoi aggiungere? ");
                     int n = scanner.nextInt();
