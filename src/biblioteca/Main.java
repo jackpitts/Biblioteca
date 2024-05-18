@@ -1,14 +1,10 @@
 package biblioteca;
 
 import java.util.Scanner;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main {
-
-    private static Map<String, String> prestiti = new HashMap<>(); // Mappa per tracciare i prestiti
 
     public static void main(String[] args) {
         LibraryRepository libraryRepo = new LibraryRepositoryXML("src\\biblioteca\\libri.xml");
@@ -86,7 +82,7 @@ public class Main {
                 case "1" -> {
                     System.out.print("Quanti libri vuoi aggiungere? ");
                     int n = scanner.nextInt();
-                    scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+                    scanner.nextLine();
 
                     for (int i = 0; i < n; i++) {
                         System.out.print("Inserisci il titolo del libro che desideri aggiungere: ");
@@ -103,7 +99,7 @@ public class Main {
                             } catch (Exception ex) {
                                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                            scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+                            scanner.nextLine();
                         } else {
                             // Se il libro non esiste, aggiungilo all'archivio
                             System.out.print("Inserisci l'autore del libro che desideri aggiungere: ");
@@ -117,17 +113,17 @@ public class Main {
                             System.out.print("Inserisci quante copie sono disponibili del libro che desideri aggiungere: ");
                             int quantity = scanner.nextInt();
                             libraryService.addOrUpdateBook(title, author, publisher, genre, year, quantity);
-                            scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+                            scanner.nextLine();
                         }
                     }
                     System.out.println("Catalogo aggiornato con successo!");
-                    break; // Esci dal case "1" dopo aver aggiunto i libri richiesti
+                    break;
                 }
 
                 case "2" -> {
                     System.out.print("Quanti libri vuoi eliminare? ");
                     int n = scanner.nextInt();
-                    scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+                    scanner.nextLine();
                     for (int i = 0; i < n; i++) {
                         System.out.print("Inserisci il titolo del libro che desideri eliminare: ");
                         String title = scanner.nextLine();
@@ -136,20 +132,18 @@ public class Main {
                             int quantity = scanner.nextInt();
                             libraryService.removeQuantities(title, quantity);
                             System.out.print("Catalogo aggiornato con successo!\n");
-                            scanner.nextLine(); // Consuma il carattere di nuova riga residuo
-
+                            scanner.nextLine();
                         } else {
                             System.out.println("Libro non trovato!");
-                            break; // da fixare
+                            break;
                         }
                     }
                 }
 
                 case "3" -> {
-                    // Prendi un libro in prestito
                     System.out.print("Quanti libri vuoi prendere in prestito? ");
                     int n = scanner.nextInt();
-                    scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+                    scanner.nextLine();
                     if (n > libraryService.countBooks()) {
                         System.out.println("Hai selezionato un numero di libri maggiore rispetto a quelli presenti nel catalogo");
                         break;
@@ -168,7 +162,7 @@ public class Main {
                         // Stampa la quantità disponibile nel messaggio per l'utente
                         System.out.print("Inserisci la quantita' di copie che desideri prendere in prestito (" + currentQuantity + " disponibili): ");
                         int quantity = scanner.nextInt();
-                        scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+                        scanner.nextLine();
 
                         try {
                             libraryService.borrow(title, quantity);
@@ -180,27 +174,28 @@ public class Main {
                         }
                     }
                 }
-                
+
                 case "4" -> {
                     System.out.print("Quanti libri vuoi restituire? ");
                     int n = scanner.nextInt();
-                    scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+                    scanner.nextLine();
 
                     for (int i = 0; i < n; i++) {
                         System.out.print("Inserisci il titolo del libro che desideri restituire: ");
                         String title = scanner.nextLine();
 
-                        // Consentire all'utente di restituire fino al limite massimo
+                        // Consentire all'utente di restituire fino al limite massimo di libri in possesso
                         int userBookQuantity = userService.getBookQuantity(user, title);
+                        // Se l'utente non ha il libro
                         if (userBookQuantity == 0) {
                             System.out.println("Non possiedi il libro!");
                             break;
                         }
                         System.out.print("Inserisci la quantita' di copie che desideri restituire (" + userBookQuantity + " disponibili): ");
                         int quantity = scanner.nextInt();
-                        scanner.nextLine(); // Consuma il carattere di nuova riga residuo
+                        scanner.nextLine();
 
-                        // Restituire solo fino al limite massimo
+                        // Restituire solo fino al limite massimo di copie in possesso
                         if (quantity > userBookQuantity) {
                             System.out.println("Hai selezionato una quantita' di copie maggiore rispetto a quelle in tuo possesso");
                             break;
@@ -244,18 +239,17 @@ public class Main {
                             System.out.println(bookTitles);
                         }
                     } catch (Exception ex) {
-                        // Se ci sono altre eccezioni da gestire, possiamo fare qualcosa qui
+                        // Gestione di un eventuale eccezione
                         System.out.println("Si è verificato un errore nel recuperare i libri in prestito");
                     }
                 }
 
-//                case "8" -> {
-//                    biblioteca.eseguiBiblioteca(utenteAutenticato, archive); // Passa l'oggetto archive
-//                    break;
-//                }
+                case "8" -> {
+                }
                 
                 case "0" ->
                     System.out.println("Arrivederci!");
+                    
                 default ->
                     System.out.println("Comando non riconosciuto");
             }
