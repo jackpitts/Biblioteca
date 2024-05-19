@@ -33,23 +33,23 @@ public class Main {
                     String name = scanner.nextLine().replaceAll("\\s+", "");
                     System.out.print("Inserisci la tua password: ");
                     String password = scanner.nextLine().replaceAll("\\s+", "");
-                    System.out.print("\n");
 
                     try {
                         user = userService.authUser(name, password);
                         authenticated = true;
+                        System.out.println("Accesso effettuato con successo!\n");
                     } catch (Exception ex) {
                         System.out.println("Nome utente o password errati\n");
                     }
                 }
                 case "2" -> {
                     System.out.println("Registrazione utente:");
-                    System.out.print("Inserisci il nome utente che vuoi registrare: ");
+                    System.out.print("Inserisci il tuo nome utente: ");
                     String name = scanner.nextLine().replaceAll("\\s+", "");
                     System.out.print("Inserisci la tua password: ");
                     String password = scanner.nextLine().replaceAll("\\s+", "");
                     userService.addUser(name, password);
-                    System.out.println("Registrazione completata con successo!\n");
+                    System.out.println("Registrazione effettuata con successo!\n");
                 }
                 case "0" -> {
                     System.out.println("Arrivederci!");

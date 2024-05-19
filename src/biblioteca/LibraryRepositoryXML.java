@@ -204,7 +204,7 @@ public class LibraryRepositoryXML implements LibraryRepository {
                 String publisher = bookElement.getAttribute("publisher");
                 int year = Integer.parseInt(bookElement.getAttribute("year"));
                 int quantity = Integer.parseInt(bookElement.getAttribute("quantity"));
-                System.out.println("Titolo: " + title + ", autore: " + author + ", genere: " + genre + ", casa editrice: " + publisher + ", anno di pubblicazione: " + year + ", copie disponibili: " + quantity + "\n");
+                System.out.println("Titolo: " + title + "\nAutore: " + author + "\nGenere: " + genre + "\nCasa editrice: " + publisher + "\nAnno di pubblicazione: " + year + "\nCopie disponibili: " + quantity + "\n");
                 return;
             }
         }
