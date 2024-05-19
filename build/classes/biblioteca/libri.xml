@@ -1,10 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><books>
-
-    <book author="a" genre="a" publisher="a" quantity="20" title="a" year="10"/>
-    <book author="b" genre="b" publisher="b" quantity="92" title="b" year="2000"/>
-    <book author="c" genre="c" publisher="c" quantity="10" title="c" year="1"/>
-    <book author="d" genre="d" publisher="d" quantity="11" title="d" year="1"/>
-    <book author="e" genre="e" publisher="e" quantity="10" title="e" year="1"/>
-    <book author="f" genre="f" publisher="f" quantity="1" title="f" year="4"/>
-    <book author="g" genre="g" publisher="g" quantity="6" title="g" year="6"/>
-</books>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><books/>

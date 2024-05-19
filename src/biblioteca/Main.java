@@ -91,7 +91,7 @@ public class Main {
                         // Verifica se il libro esiste già nell'archivio
                         if (libraryService.hasBook(title)) {
                             // Se il libro esiste già, aumenta semplicemente la quantità disponibile
-                            System.out.print("Il libro esiste gia' nell'archivio, inserisci la quantita' di copie da aggiungere: ");
+                            System.out.print("Il libro esiste gia' nell'archivio, inserisci il numero di copie da aggiungere: ");
                             int quantity = scanner.nextInt();
                             try {
                                 Book book = libraryService.getBook(title);
@@ -110,7 +110,7 @@ public class Main {
                             String genre = scanner.nextLine();
                             System.out.print("Inserisci l'anno di pubblicazione del libro che desideri aggiungere: ");
                             int year = scanner.nextInt();
-                            System.out.print("Inserisci quante copie sono disponibili del libro che desideri aggiungere: ");
+                            System.out.print("Inserisci il numero di copie disponibili del libro che desideri aggiungere: ");
                             int quantity = scanner.nextInt();
                             libraryService.addOrUpdateBook(title, author, publisher, genre, year, quantity);
                             scanner.nextLine();
@@ -131,7 +131,7 @@ public class Main {
                             System.out.print("Inserisci il numero di copie che desideri eliminare (" + libraryService.getBookQuantity(title) + " disponibili): ");
                             int quantity = scanner.nextInt();
                             libraryService.removeQuantities(title, quantity);
-                            System.out.print("Catalogo aggiornato con successo!\n");
+                            System.out.println("Catalogo aggiornato con successo!\n");
                             scanner.nextLine();
                         } else {
                             System.out.println("Libro non trovato!\n");
@@ -160,7 +160,7 @@ public class Main {
                         }
 
                         // Stampa la quantità disponibile nel messaggio per l'utente
-                        System.out.print("Inserisci la quantita' di copie che desideri prendere in prestito (" + currentQuantity + " disponibili): ");
+                        System.out.print("Inserisci il numero di copie che desideri prendere in prestito (" + currentQuantity + " disponibili): ");
                         int quantity = scanner.nextInt();
                         scanner.nextLine();
 
@@ -170,7 +170,7 @@ public class Main {
                             System.out.println("Prestito effettuato con successo!\n");
                         } catch (Exception ex) {
                             ex.printStackTrace(new java.io.PrintStream(System.out));
-                            System.out.println("La quantita' di copie inserita è maggiore di quelle disponibili\n");
+                            System.out.println("Il numero di copie inserita è maggiore di quelle disponibili\n");
                         }
                     }
                 }
@@ -191,13 +191,13 @@ public class Main {
                             System.out.println("Non possiedi il libro!\n");
                             break;
                         }
-                        System.out.print("Inserisci la quantita' di copie che desideri restituire (" + userBookQuantity + " disponibili): ");
+                        System.out.print("Inserisci il numero di copie che desideri restituire (" + userBookQuantity + " disponibili): ");
                         int quantity = scanner.nextInt();
                         scanner.nextLine();
 
                         // Restituire solo fino al limite massimo di copie in possesso
                         if (quantity > userBookQuantity) {
-                            System.out.println("Hai selezionato una quantita' di copie maggiore rispetto a quelle in tuo possesso\n");
+                            System.out.println("Hai selezionato un numero di copie maggiore rispetto a quelle in tuo possesso\n");
                             break;
                         }
                         try {
