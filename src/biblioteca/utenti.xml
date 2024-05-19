@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><users><user name="jacopo" password="jacopo"><book date="19-05-2024 15:50:42" quantity="1" title="esempio2"/><history action="prestito" date="19-05-2024 15:50:42" quantity="3" title="esempio2"/><history action="restituzione" date="19-05-2024 15:52:48" quantity="2" title="esempio2"/></user><user name="utente1" password="utente1"/></users>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><users><user name="utente1" password="utente1"/></users>

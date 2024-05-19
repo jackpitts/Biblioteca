@@ -46,13 +46,13 @@ public class UserRepositoryXML implements UserRepository {
     }
 
     @Override
-    public void addUser(User user) {
+    public void addUser(User user)throws Exception{
         NodeList userNodes = doc.getElementsByTagName("user");
 
         for (int i = 0; i < userNodes.getLength(); i++) {
             Element userElement = (Element) userNodes.item(i);
             if (userElement.getAttribute("name").equals(user.getName())) {
-                return;
+                throw new Exception();
             }
         }
 

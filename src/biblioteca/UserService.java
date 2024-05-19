@@ -10,7 +10,7 @@ public class UserService {
         this.userRepo = repo;
     }
 
-    public void addUser(String name, String password) {
+    public void addUser(String name, String password)throws Exception {
         User user = new User(name, password);
         this.userRepo.addUser(user);
     }

@@ -43,13 +43,16 @@ public class Main {
                     }
                 }
                 case "2" -> {
-                    System.out.println("Registrazione utente:");
                     System.out.print("Inserisci il tuo nome utente: ");
                     String name = scanner.nextLine().replaceAll("\\s+", "");
                     System.out.print("Inserisci la tua password: ");
                     String password = scanner.nextLine().replaceAll("\\s+", "");
-                    userService.addUser(name, password);
-                    System.out.println("Registrazione effettuata con successo!\n");
+                    try {
+                        userService.addUser(name, password);
+                        System.out.println("Registrazione effettuata con successo!\n");
+                    } catch (Exception ex) {
+                        System.out.println("Nome utente gia' esistente, riprova\n");
+                    }
                 }
                 case "0" -> {
                     System.out.println("Arrivederci!");
